@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Take2App: App {
+    
+    static let library = LibraryViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LibraryView(libraryViewModel: Take2App.library)
         }
     }
 }
