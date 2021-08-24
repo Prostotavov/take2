@@ -15,6 +15,12 @@ struct Library {
         self.dictionaries.append(dictionary)
     }
     
+    mutating func deleteDictionary(at indexSet: IndexSet) {
+        for index in indexSet {
+            dictionaries.remove(at: index)
+        }
+    }
+    
     func choose(dict: Dictionary) -> Dictionary {
         let index = dictionaries.firstIndex(where: { $0.id == dict.id }) ?? 0
         return self.dictionaries[index]

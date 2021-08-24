@@ -23,6 +23,9 @@ struct LibraryView: View {
                                 Text(dict.name)
                             }
                     }
+                    .onDelete(perform: { indexSet in
+                        libraryViewModel.deleteDictionary(at: indexSet)
+                    })
                 }
                 .toolbar {
                     ToolbarItem(placement: .principal) {

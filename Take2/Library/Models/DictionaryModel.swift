@@ -16,6 +16,12 @@ class Dictionary: Identifiable {
         self.words.append(Word(name: word.name, translate: word.translate, analogy: word.analogy, hint: word.hint))
     }
     
+    func deleteWord(at indexSet: IndexSet) {
+        for index in indexSet {
+            words.remove(at: index)
+        }
+    }
+    
     func editWord(index: Int, newWord: Word) {
         self.words[index] = newWord
     }

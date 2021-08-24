@@ -19,6 +19,10 @@ class LibraryViewModel: ObservableObject {
         libraryModel.addDictionary(dictionary: dictionary)
     }
     
+    func deleteDictionary(at indexSet: IndexSet) {
+        libraryModel.deleteDictionary(at: indexSet)
+    }
+    
     func choose(dict: Dictionary) -> Dictionary {
         libraryModel.choose(dict: dict)
     }    

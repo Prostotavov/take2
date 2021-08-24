@@ -19,6 +19,10 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.addWord(word: word)
     }
     
+    func deleteWord(at indexSet: IndexSet) {
+        dictionaryModel.deleteWord(at: indexSet)
+    }
+    
     func editWord(index: Int, newWord: Word) {
         dictionaryModel.editWord(index: index, newWord: newWord)
     }

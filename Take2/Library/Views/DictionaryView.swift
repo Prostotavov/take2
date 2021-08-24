@@ -12,6 +12,7 @@ struct DictionaryView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var showAddWordView = false
     @State var showEditWordView = false
+    @State var isDelete = false
     @ObservedObject var dictionaryViewModel: DictionaryViewModel
     @State var index: Int = 0
     
@@ -41,6 +42,10 @@ struct DictionaryView: View {
 
                         }
                     }
+                    .onDelete(perform: { indexSet in
+                        dictionaryViewModel.deleteWord(at: indexSet)
+                        isDelete.toggle()
+                    })
                 }
                 .toolbar {
                     ToolbarItem(placement: .principal) {
@@ -69,6 +74,7 @@ struct DictionaryView: View {
                 }
             }
             .blur(radius: showAddWordView || showEditWordView ? 3.0 : 0)
+            .blur(radius: isDelete ? 0 : 0)
             .navigationBarHidden(true)
             if showAddWordView {
                 AddWordView(showAddWordView: $showAddWordView, dictionaryViewModel: dictionaryViewModel)
