@@ -25,7 +25,11 @@ class LibraryViewModel: ObservableObject {
     
     func choose(dict: Dictionary) -> Dictionary {
         libraryModel.choose(dict: dict)
-    }    
+    }
+    
+    func moveDictionary(indices: IndexSet, newOffset: Int) {
+        libraryModel.moveDictionary(indices: indices, newOffset: newOffset)
+    }
     
     // MARK: functions for debug
     

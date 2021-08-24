@@ -16,14 +16,16 @@ struct Library {
     }
     
     mutating func deleteDictionary(at indexSet: IndexSet) {
-        for index in indexSet {
-            dictionaries.remove(at: index)
-        }
+            dictionaries.remove(atOffsets: indexSet)
     }
     
     func choose(dict: Dictionary) -> Dictionary {
         let index = dictionaries.firstIndex(where: { $0.id == dict.id }) ?? 0
         return self.dictionaries[index]
+    }
+    
+    mutating func moveDictionary(indices: IndexSet, newOffset: Int) {
+        dictionaries.move(fromOffsets: indices, toOffset: newOffset)
     }
     
     init() {

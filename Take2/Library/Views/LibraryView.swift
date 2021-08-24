@@ -26,10 +26,16 @@ struct LibraryView: View {
                     .onDelete(perform: { indexSet in
                         libraryViewModel.deleteDictionary(at: indexSet)
                     })
+                    .onMove(perform: { indices, newOffset in
+                        libraryViewModel.moveDictionary(indices: indices, newOffset: newOffset)
+                    })
                 }
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         Text("Library")
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        EditButton()
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {

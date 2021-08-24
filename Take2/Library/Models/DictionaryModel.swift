@@ -17,9 +17,7 @@ class Dictionary: Identifiable {
     }
     
     func deleteWord(at indexSet: IndexSet) {
-        for index in indexSet {
-            words.remove(at: index)
-        }
+        words.remove(atOffsets: indexSet)
     }
     
     func editWord(index: Int, newWord: Word) {
@@ -29,6 +27,10 @@ class Dictionary: Identifiable {
     func choose(word: Word) -> Int {
         let index = words.firstIndex(where: { $0.id == word.id }) ?? 0
         return index
+    }
+    
+    func moveWord(indices: IndexSet, newOffset: Int) {
+        words.move(fromOffsets: indices, toOffset: newOffset)
     }
     
     init(name: String) {

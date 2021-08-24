@@ -31,6 +31,10 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.choose(word: word)
     }
     
+    func moveWord(indices: IndexSet, newOffset: Int) {
+        dictionaryModel.moveWord(indices: indices, newOffset: newOffset)
+    }
+    
     init(dictionaryModel: Dictionary) {
         self.dictionaryModel = dictionaryModel
         

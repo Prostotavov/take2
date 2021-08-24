@@ -12,7 +12,7 @@ struct DictionaryView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var showAddWordView = false
     @State var showEditWordView = false
-    @State var isDelete = false
+    @State var isFetchView = false
     @ObservedObject var dictionaryViewModel: DictionaryViewModel
     @State var index: Int = 0
     
@@ -44,12 +44,19 @@ struct DictionaryView: View {
                     }
                     .onDelete(perform: { indexSet in
                         dictionaryViewModel.deleteWord(at: indexSet)
-                        isDelete.toggle()
+                        isFetchView.toggle()
+                    })
+                    .onMove(perform: { indices, newOffset in
+                        dictionaryViewModel.moveWord(indices: indices, newOffset: newOffset)
+                        isFetchView.toggle()
                     })
                 }
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         Text("Dictionary")
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        EditButton()
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
@@ -74,7 +81,7 @@ struct DictionaryView: View {
                 }
             }
             .blur(radius: showAddWordView || showEditWordView ? 3.0 : 0)
-            .blur(radius: isDelete ? 0 : 0)
+            .blur(radius: isFetchView ? 0 : 0)
             .navigationBarHidden(true)
             if showAddWordView {
                 AddWordView(showAddWordView: $showAddWordView, dictionaryViewModel: dictionaryViewModel)
