@@ -6,18 +6,17 @@
 //
 
 import Foundation
-
-struct Dictionary: Identifiable {
+class Dictionary: Identifiable {
     
     var id = UUID()
     var name: String
     private(set) var words: Array<Word>
     
-    mutating func addWord(word: Word) {
+    func addWord(word: Word) {
         self.words.append(Word(name: word.name, translate: word.translate, analogy: word.analogy, hint: word.hint))
     }
     
-    mutating func editWord(index: Int, newWord: Word) {
+    func editWord(index: Int, newWord: Word) {
         self.words[index] = newWord
     }
     
