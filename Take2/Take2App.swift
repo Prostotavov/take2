@@ -6,9 +6,14 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct Take2App: App {
+    
+    init() {
+        FirebaseApp.configure()
+    }
     
     static let library = LibraryViewModel()
     

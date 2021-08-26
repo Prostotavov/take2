@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,9 @@
 		AA9285DD2667EB5100164579 /* EditWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9285DC2667EB5100164579 /* EditWordView.swift */; };
 		AA9285DF2667EBD300164579 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9285DE2667EBD300164579 /* LibraryViewModel.swift */; };
 		AA9285E12667EBDF00164579 /* DictionaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9285E02667EBDF00164579 /* DictionaryViewModel.swift */; };
+		AAF44C8F26D7F78400E0B0AE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AAF44C8E26D7F78400E0B0AE /* FirebaseFirestore */; };
+		AAF44C9126D7F78400E0B0AE /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = AAF44C9026D7F78400E0B0AE /* FirebaseFirestoreSwift-Beta */; };
+		AAF44C9426D7F7BF00E0B0AE /* LibraryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF44C9326D7F7BF00E0B0AE /* LibraryRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +43,7 @@
 		AA9285DC2667EB5100164579 /* EditWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWordView.swift; sourceTree = "<group>"; };
 		AA9285DE2667EBD300164579 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		AA9285E02667EBDF00164579 /* DictionaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewModel.swift; sourceTree = "<group>"; };
+		AAF44C9326D7F7BF00E0B0AE /* LibraryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +51,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAF44C8F26D7F78400E0B0AE /* FirebaseFirestore in Frameworks */,
+				AAF44C9126D7F78400E0B0AE /* FirebaseFirestoreSwift-Beta in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +99,7 @@
 		AA9285C92667E97000164579 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				AAF44C9226D7F7A400E0B0AE /* Repositories */,
 				AA9285CC2667E99000164579 /* Views */,
 				AA9285CB2667E98900164579 /* ViewModels */,
 				AA9285CA2667E98200164579 /* Models */,
@@ -131,6 +138,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		AAF44C9226D7F7A400E0B0AE /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				AAF44C9326D7F7BF00E0B0AE /* LibraryRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -147,6 +162,10 @@
 			dependencies = (
 			);
 			name = Take2;
+			packageProductDependencies = (
+				AAF44C8E26D7F78400E0B0AE /* FirebaseFirestore */,
+				AAF44C9026D7F78400E0B0AE /* FirebaseFirestoreSwift-Beta */,
+			);
 			productName = Take2;
 			productReference = AA9285B72667E67200164579 /* Take2.app */;
 			productType = "com.apple.product-type.application";
@@ -174,6 +193,9 @@
 				Base,
 			);
 			mainGroup = AA9285AE2667E67200164579;
+			packageReferences = (
+				AAF44C8D26D7F78400E0B0AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = AA9285B82667E67200164579 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -209,6 +231,7 @@
 				AA9285E12667EBDF00164579 /* DictionaryViewModel.swift in Sources */,
 				AA9285BB2667E67200164579 /* Take2App.swift in Sources */,
 				AA9285D52667EAF900164579 /* LibraryView.swift in Sources */,
+				AAF44C9426D7F7BF00E0B0AE /* LibraryRepository.swift in Sources */,
 				AA9285DD2667EB5100164579 /* EditWordView.swift in Sources */,
 				AA9285DF2667EBD300164579 /* LibraryViewModel.swift in Sources */,
 				AA9285CE2667E9AB00164579 /* WordModel.swift in Sources */,
@@ -400,6 +423,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AAF44C8D26D7F78400E0B0AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AAF44C8E26D7F78400E0B0AE /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAF44C8D26D7F78400E0B0AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		AAF44C9026D7F78400E0B0AE /* FirebaseFirestoreSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAF44C8D26D7F78400E0B0AE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreSwift-Beta";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AA9285AF2667E67200164579 /* Project object */;
 }
