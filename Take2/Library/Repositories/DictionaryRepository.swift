@@ -19,7 +19,7 @@ final class DictionaryRepository: ObservableObject {
     
     init(dictionary: DictionaryModel) {
         self.dictionary = dictionary
-        dictionaryPath = dictionary.name
+        self.dictionaryPath = dictionary.id ?? "dictionary"
         get()
     }
     
@@ -43,8 +43,7 @@ final class DictionaryRepository: ObservableObject {
     
     func add(_ word: WordModel) {
         
-        let wordPath = word.name
-        
+        guard let wordPath = word.id else { return }
         do {
             _ = try store.collection(libraryPath).document(dictionaryPath)
                 .collection(wordsPath).document(wordPath).setData(from: word)
@@ -55,13 +54,7 @@ final class DictionaryRepository: ObservableObject {
     }
     
     func delete(_ word: WordModel) {
-        
-        // MARK: Bad practice2
-        // лучше передавать ссылку одним и тем же способом
-        // а то здесь это происходит с помощью 'let documentId'
-        // а в другой половине проекта с 'dictionatyPath'
-        
-        let wordPath = word.name
+        guard let wordPath = word.id else { return }
         store.collection(libraryPath).document(dictionaryPath)
             .collection(wordsPath).document(wordPath).delete { error in
             if let error = error {
@@ -71,13 +64,9 @@ final class DictionaryRepository: ObservableObject {
     }
     
     func update(_ word: WordModel) {
-        let wordPath = word.name
-        
-        do {
-            try store.collection(libraryPath).document(dictionaryPath)
-                .collection(wordsPath).document(wordPath).setData(from: dictionary)
-        } catch {
-            fatalError("Updating a word failed")
-        }
+        guard let wordPath = word.id else { return }
+                store.collection(libraryPath).document(dictionaryPath)
+                .collection(wordsPath).document(wordPath).updateData(["analogy":word.analogy,"hint":word.hint,
+                     "name":word.name, "translate":word.translate])
     }
 }

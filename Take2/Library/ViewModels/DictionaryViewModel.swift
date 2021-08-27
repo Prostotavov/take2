@@ -59,6 +59,10 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.editWord(index: index, newWord: newWord)
     }
     
+    func updateWordInRepository(_ word: WordModel) {
+        dictionaryRepository.update(word)
+    }
+    
     func choose(word: WordModel) -> Int {
         dictionaryModel.choose(word: word)
     }

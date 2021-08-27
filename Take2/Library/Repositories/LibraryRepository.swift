@@ -37,23 +37,17 @@ final class LibraryRepository: ObservableObject {
     
     func add(_ dictionary: DictionaryModel) {
         
-        let dictionatyPath = dictionary.name
-        
+        guard let dictionaryPath = dictionary.id else { return }
         do {
-            _ = try store.collection(libraryPath).document(dictionatyPath).setData(from: dictionary)
+            _ = try store.collection(libraryPath).document(dictionaryPath).setData(from: dictionary)
         } catch {
             fatalError("Adding a dictionary failed")
         }
     }
     
     func delete(_ dictionary: DictionaryModel) {
-        
-        // MARK: Bad practice2
-        // лучше передавать ссылку одним и тем же способом
-        // а то здесь это происходит с помощью 'let documentId'
-        // а в другой половине проекта с 'dictionatyPath'
-        let dictionatyPath = dictionary.name
-        store.collection(libraryPath).document(dictionatyPath).delete { error in
+        guard let dictionaryPath = dictionary.id else { return }
+        store.collection(libraryPath).document(dictionaryPath).delete { error in
             if let error = error {
                 print("Unable to remove this dictionary: \(error.localizedDescription)")
             }
@@ -61,13 +55,8 @@ final class LibraryRepository: ObservableObject {
     }
     
     func update(_ dictionary: DictionaryModel) {
-        let dictionatyPath = dictionary.name
-        
-        do {
-            try store.collection(libraryPath).document(dictionatyPath).setData(from: dictionary)
-        } catch {
-            fatalError("Updating a dictionary failed")
-        }
+        guard let dictionaryPath = dictionary.id else { return }
+                store.collection(libraryPath).document(dictionaryPath)
+                    .updateData(["name" : dictionary.name ])
     }
-    
 }
