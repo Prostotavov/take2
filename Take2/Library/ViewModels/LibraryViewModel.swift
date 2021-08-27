@@ -29,6 +29,14 @@ class LibraryViewModel: ObservableObject {
         libraryRepository.add(dictionaries)
     }
     
+    func deleteDictionaryFromRepository(_ dictionary: DictionaryModel) {
+        libraryRepository.delete(dictionary)
+    }
+    
+    func updateDictionaryByRepository(_ dictionary: DictionaryModel) {
+        libraryRepository.update(dictionary)
+    }
+    
     func addDictionary(dictionary: DictionaryModel) {
         libraryModel.addDictionary(dictionary: dictionary)
     }

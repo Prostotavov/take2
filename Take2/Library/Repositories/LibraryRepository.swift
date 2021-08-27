@@ -40,6 +40,26 @@ final class LibraryRepository: ObservableObject {
         } catch {
             fatalError("Adding a dictionary failed")
         }
-        
     }
+    
+    func delete(_ dictionary: DictionaryModel) {
+        
+        guard let documentId = dictionary.id else { return }
+        store.collection(libratyPath).document(documentId).delete { error in
+            if let error = error {
+                print("Unable to remove this dictionary: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func update(_ dictionary: DictionaryModel) {
+        guard let documentId = dictionary.id else { return }
+        
+        do {
+            try store.collection(libratyPath).document(documentId).setData(from: dictionary)
+        } catch {
+            fatalError("Updating a dictionary failed")
+        }
+    }
+    
 }
