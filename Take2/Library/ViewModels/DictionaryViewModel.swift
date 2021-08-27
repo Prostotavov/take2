@@ -15,6 +15,10 @@ class DictionaryViewModel: ObservableObject {
     
     private var cancellables: Set<AnyCancellable> = []
     
+    var name: String {
+        return dictionaryModel.name
+    }
+    
     var words: Array<WordModel> {
         return dictionaryModel.words
     }
@@ -30,8 +34,8 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.printContent()
     }
     
-    func addWordToRepository(_ words: WordModel) {
-        dictionaryRepository.add(words)
+    func addWordToRepository(_ words: WordModel, dictionaryPath: String) {
+        dictionaryRepository.add(words, dictionaryPath: dictionaryPath)
     }
     
     func addWord(word: WordModel) {

@@ -37,7 +37,6 @@ final class LibraryRepository: ObservableObject {
         
         do {
             _ = try store.collection(libratyPath).document(dictionatyPath).setData(from: dictionary)
-            print("dictionatyPath: \(dictionatyPath)")
         } catch {
             fatalError("Adding a dictionary failed")
         }

@@ -45,7 +45,8 @@ struct AddWordView: View {
                                     })
                                     Spacer()
                                     Button(action: {
-                                        dictionaryViewModel.addWordToRepository(word)
+                                        dictionaryViewModel.addWordToRepository(word, dictionaryPath: dictionaryViewModel.name)
+                                        print("FFFFFF \(dictionaryViewModel.name)")
 //                                        dictionaryViewModel.addWord(word: word)
                                         showAddWordView = false
                                         dictionaryViewModel.printContent()

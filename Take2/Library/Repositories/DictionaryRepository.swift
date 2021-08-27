@@ -14,7 +14,7 @@ final class DictionaryRepository: ObservableObject {
     private let libraryPath = "library"
     var dictionaryPath: String = "dictionary"
     private let store = Firestore.firestore()
-    @Published var dictionary: DictionaryModel = DictionaryModel(name: "invise")
+    @Published var dictionary: DictionaryModel = DictionaryModel(name: "dictionaryPath")
     
     init() {
         dictionaryPath = dictionary.name
@@ -37,13 +37,14 @@ final class DictionaryRepository: ObservableObject {
         }
     }
     
-    func add(_ word: WordModel) {
+    func add(_ word: WordModel, dictionaryPath: String) {
         
-        let wordsPath = word.name
+        let wordsPath = "words"
+        let wordPath = word.name
         
         do {
             _ = try store.collection(libraryPath).document(dictionaryPath)
-                .collection(wordsPath).document(wordsPath).setData(from: word)
+                .collection(wordsPath).document(wordPath).setData(from: word)
         } catch {
             fatalError("Adding a word failed")
         }
