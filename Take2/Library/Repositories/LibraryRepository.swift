@@ -11,7 +11,7 @@ import Combine
 
 final class LibraryRepository: ObservableObject {
     
-    private let path = "library"
+    private let libratyPath = "library"
     private let store = Firestore.firestore()
     @Published var libraryModel: LibraryModel = LibraryModel()
     
@@ -20,7 +20,7 @@ final class LibraryRepository: ObservableObject {
     }
     
     func get() {
-        store.collection(path).addSnapshotListener { snapshot, error in
+        store.collection(libratyPath).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error)
                 return
@@ -32,8 +32,12 @@ final class LibraryRepository: ObservableObject {
     }
     
     func add(_ dictionary: DictionaryModel) {
+        
+        let dictionatyPath = dictionary.name
+        
         do {
-            _ = try store.collection(path).addDocument(from: dictionary)
+            _ = try store.collection(libratyPath).document(dictionatyPath).setData(from: dictionary)
+            print("dictionatyPath: \(dictionatyPath)")
         } catch {
             fatalError("Adding a dictionary failed")
         }

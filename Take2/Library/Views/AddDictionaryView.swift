@@ -45,8 +45,8 @@ struct AddDictionaryView: View {
                                     })
                                     Spacer()
                                     Button(action: {
-//                                        libraryViewModel.addDictionaryToRepository(dict)
-                                        libraryViewModel.addDictionary(dictionary: dict)
+                                        libraryViewModel.addDictionaryToRepository(dict)
+//                                        libraryViewModel.addDictionary(dictionary: dict)
                                         showAddDictView = false
                                     }, label: {
                                         Text("Save")

@@ -11,16 +11,22 @@ import Combine
 
 final class DictionaryRepository: ObservableObject {
     
-    private let path = "dictionary"
+    private let libraryPath = "library"
+    var dictionaryPath: String = "dictionary"
     private let store = Firestore.firestore()
-    @Published var dictionary: DictionaryModel = DictionaryModel(name: "")
+    @Published var dictionary: DictionaryModel = DictionaryModel(name: "invise")
     
     init() {
+        dictionaryPath = dictionary.name
         get()
     }
     
     func get() {
-        store.collection(path).addSnapshotListener { snapshot, error in
+        
+        let wordsPath = "words"
+        
+        store.collection(libraryPath).document(dictionaryPath)
+            .collection(wordsPath).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error)
                 return
@@ -32,8 +38,12 @@ final class DictionaryRepository: ObservableObject {
     }
     
     func add(_ word: WordModel) {
+        
+        let wordsPath = word.name
+        
         do {
-            _ = try store.collection(path).addDocument(from: word)
+            _ = try store.collection(libraryPath).document(dictionaryPath)
+                .collection(wordsPath).document(wordsPath).setData(from: word)
         } catch {
             fatalError("Adding a word failed")
         }
