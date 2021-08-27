@@ -6,16 +6,35 @@
 //
 
 import Foundation
+import Combine
 
 class DictionaryViewModel: ObservableObject {
         
-    @Published private var dictionaryModel: Dictionary
+    @Published var dictionaryRepository = DictionaryRepository()
+    @Published private var dictionaryModel: DictionaryModel
     
-    var words: Array<Word> {
+    private var cancellables: Set<AnyCancellable> = []
+    
+    var words: Array<WordModel> {
         return dictionaryModel.words
     }
     
-    func addWord(word: Word) {
+    init(dictionaryModel: DictionaryModel) {
+        self.dictionaryModel = dictionaryModel
+        dictionaryRepository.$dictionary
+            .assign(to: \.dictionaryModel, on: self)
+            .store(in: &cancellables)
+        
+        print(dictionaryModel.name)
+        print("DVM init for \(self.dictionaryModel.getID() ?? "")")
+        dictionaryModel.printContent()
+    }
+    
+    func addWordToRepository(_ words: WordModel) {
+        dictionaryRepository.add(words)
+    }
+    
+    func addWord(word: WordModel) {
         dictionaryModel.addWord(word: word)
     }
     
@@ -23,24 +42,16 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.deleteWord(at: indexSet)
     }
     
-    func editWord(index: Int, newWord: Word) {
+    func editWord(index: Int, newWord: WordModel) {
         dictionaryModel.editWord(index: index, newWord: newWord)
     }
     
-    func choose(word: Word) -> Int {
+    func choose(word: WordModel) -> Int {
         dictionaryModel.choose(word: word)
     }
     
     func moveWord(indices: IndexSet, newOffset: Int) {
         dictionaryModel.moveWord(indices: indices, newOffset: newOffset)
-    }
-    
-    init(dictionaryModel: Dictionary) {
-        self.dictionaryModel = dictionaryModel
-        
-        print(dictionaryModel.name)
-        print("DVM init for \(self.dictionaryModel.getID())")
-        dictionaryModel.printContent()
     }
     
     // MARK: functions for debug
@@ -49,7 +60,7 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.printContent()
     }
     
-    func getID() -> UUID {
+    func getID() -> String? {
         return dictionaryModel.getID()
     }
     

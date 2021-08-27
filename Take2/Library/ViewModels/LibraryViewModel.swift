@@ -6,16 +6,30 @@
 //
 
 import Foundation
+import Combine
 
 class LibraryViewModel: ObservableObject {
     
-    @Published private var libraryModel: Library = Library()
+    @Published var libraryRepository = LibraryRepository()
+    @Published private var libraryModel: LibraryModel = LibraryModel()
     
-    var dictionaries: Array<Dictionary> {
+    private var cancellables: Set<AnyCancellable> = []
+    
+    var dictionaries: Array<DictionaryModel> {
         return libraryModel.dictionaries
     }
     
-    func addDictionary(dictionary: Dictionary) {
+    init() {
+        libraryRepository.$libraryModel
+            .assign(to: \.libraryModel, on: self)
+            .store(in: &cancellables)
+    }
+    
+    func addDictionaryToRepository(_ dictionaries: DictionaryModel) {
+        libraryRepository.add(dictionaries)
+    }
+    
+    func addDictionary(dictionary: DictionaryModel) {
         libraryModel.addDictionary(dictionary: dictionary)
     }
     
@@ -23,7 +37,7 @@ class LibraryViewModel: ObservableObject {
         libraryModel.deleteDictionary(at: indexSet)
     }
     
-    func choose(dict: Dictionary) -> Dictionary {
+    func choose(dict: DictionaryModel) -> DictionaryModel {
         libraryModel.choose(dict: dict)
     }
     

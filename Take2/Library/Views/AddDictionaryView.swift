@@ -10,7 +10,7 @@ import SwiftUI
 struct AddDictionaryView: View {
     
     @Binding var showAddDictView: Bool
-    @State var dict = Dictionary(name: "")
+    @State var dict = DictionaryModel(name: "")
     @ObservedObject var libraryViewModel: LibraryViewModel
     
     var body: some View {
@@ -45,6 +45,7 @@ struct AddDictionaryView: View {
                                     })
                                     Spacer()
                                     Button(action: {
+//                                        libraryViewModel.addDictionaryToRepository(dict)
                                         libraryViewModel.addDictionary(dictionary: dict)
                                         showAddDictView = false
                                     }, label: {

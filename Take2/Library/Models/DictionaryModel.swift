@@ -5,26 +5,41 @@
 //  Created by MacBook Pro on 2.06.21.
 //
 
-import Foundation
-class Dictionary: Identifiable {
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+class DictionaryModel: Identifiable, Codable {
     
-    var id = UUID()
+    @DocumentID var id = UUID().uuidString
     var name: String
-    private(set) var words: Array<Word>
     
-    func addWord(word: Word) {
-        self.words.append(Word(name: word.name, translate: word.translate, analogy: word.analogy, hint: word.hint))
+    private(set) var words: Array<WordModel>
+    
+    init(name: String) {
+        self.name = name
+        self.words = Array<WordModel>()
+        print("DM init name")
+    }
+    
+    func addWord(word: WordModel) {
+        self.words.append(WordModel(name: word.name, translate: word.translate, analogy: word.analogy, hint: word.hint))
+    }
+    
+    func addWords(words: [WordModel]) {
+        for word in words {
+            self.words.append(word)
+        }
     }
     
     func deleteWord(at indexSet: IndexSet) {
         words.remove(atOffsets: indexSet)
     }
     
-    func editWord(index: Int, newWord: Word) {
+    func editWord(index: Int, newWord: WordModel) {
         self.words[index] = newWord
     }
     
-    func choose(word: Word) -> Int {
+    func choose(word: WordModel) -> Int {
         let index = words.firstIndex(where: { $0.id == word.id }) ?? 0
         return index
     }
@@ -33,19 +48,13 @@ class Dictionary: Identifiable {
         words.move(fromOffsets: indices, toOffset: newOffset)
     }
     
-    init(name: String) {
-        self.name = name
-        self.words = Array<Word>()
-        print("DM init name")
-    }
-    
     // MARK: functions for debug
     
     func printContent () {
         words.forEach { print($0.name) }
     }
     
-    func getID() -> UUID {
+    func getID() -> String? {
         return self.id
     }
     

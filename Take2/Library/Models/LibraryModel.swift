@@ -7,19 +7,25 @@
 
 import Foundation
 
-struct Library {
+struct LibraryModel {
     
-    private(set) var dictionaries: Array<Dictionary>
+    private(set) var dictionaries: Array<DictionaryModel>
     
-    mutating func addDictionary(dictionary: Dictionary) {
+    mutating func addDictionary(dictionary: DictionaryModel) {
         self.dictionaries.append(dictionary)
+    }
+    
+    mutating func addDictionaries(dictionaries: [DictionaryModel]) {
+        for dict in dictionaries {
+            self.dictionaries.append(dict)
+        }
     }
     
     mutating func deleteDictionary(at indexSet: IndexSet) {
             dictionaries.remove(atOffsets: indexSet)
     }
     
-    func choose(dict: Dictionary) -> Dictionary {
+    func choose(dict: DictionaryModel) -> DictionaryModel {
         let index = dictionaries.firstIndex(where: { $0.id == dict.id }) ?? 0
         return self.dictionaries[index]
     }
@@ -29,7 +35,7 @@ struct Library {
     }
     
     init() {
-        self.dictionaries = Array<Dictionary>()
+        self.dictionaries = Array<DictionaryModel>()
     }
     
     // MARK: functions for debug

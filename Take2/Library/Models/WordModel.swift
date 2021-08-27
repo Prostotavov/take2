@@ -5,11 +5,12 @@
 //  Created by MacBook Pro on 2.06.21.
 //
 
-import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
-struct Word: Identifiable {
+struct WordModel: Identifiable, Codable {
     
-    var id = UUID()
+    @DocumentID var id = UUID().uuidString
     var name: String
     var translate: String
     var analogy: String
@@ -17,7 +18,7 @@ struct Word: Identifiable {
     
     // MARK: functions for debug
     
-    func getID() -> UUID {
+    func getID() -> String? {
         return self.id
     }
     

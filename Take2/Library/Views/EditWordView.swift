@@ -10,7 +10,7 @@ import SwiftUI
 struct EditWordView: View {
     
     @Binding var showEditWordView: Bool
-    @State var word = Word(name: "", translate: "", analogy: "", hint: "")
+    @State var word = WordModel(name: "", translate: "", analogy: "", hint: "")
     @ObservedObject var dictionaryViewModel: DictionaryViewModel
     var index: Int
     
@@ -65,8 +65,8 @@ struct EditWordView: View {
 
 struct EditWordView_Previews: PreviewProvider {
     
-    static var dictionary = DictionaryViewModel(dictionaryModel: Dictionary(name: "Test"))
-    static var word = Word(name: "", translate: "", analogy: "", hint: "")
+    static var dictionary = DictionaryViewModel(dictionaryModel: DictionaryModel(name: "Test"))
+    static var word = WordModel(name: "", translate: "", analogy: "", hint: "")
     static var index: Int = -2
     
     static var previews: some View {

@@ -16,10 +16,8 @@ struct DictionaryView: View {
     @ObservedObject var dictionaryViewModel: DictionaryViewModel
     @State var index: Int = 0
     
-    init(dictionary: Dictionary) {
+    init(dictionary: DictionaryModel) {
         self.dictionaryViewModel = DictionaryViewModel(dictionaryModel: dictionary)
-        print("DV init for \(dictionaryViewModel.getID())")
-        self.dictionaryViewModel.isEmpty()
     }
     
     var body: some View {
@@ -94,7 +92,7 @@ struct DictionaryView: View {
 }
 
 struct DictionaryView_Previews: PreviewProvider {
-    static var dict = Dictionary(name: "")
+    static var dict = DictionaryModel(name: "")
     static var previews: some View {
         DictionaryView(dictionary: dict)
     }

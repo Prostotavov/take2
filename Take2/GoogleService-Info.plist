@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>674110763633-eohscegjk643le9vtd6uvvg7n0ec4eac.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.674110763633-eohscegjk643le9vtd6uvvg7n0ec4eac</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDIfFXjtYPMJWwQo3ivSISdKkzyqCMkigI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>674110763633</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>MyId.Take2</string>
+	<key>PROJECT_ID</key>
+	<string>take2-a9a9b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>take2-a9a9b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:674110763633:ios:e543b5b17f7259a4fba1d0</string>
+</dict>
+</plist>

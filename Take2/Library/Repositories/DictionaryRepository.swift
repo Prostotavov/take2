@@ -1,6 +1,6 @@
 //
-//  LibraryRepository.swift
-//  Take2
+//  DictionaryRepository.swift
+//  StadyCards
 //
 //  Created by MacBook Pro on 26.08.21.
 //
@@ -9,11 +9,11 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Combine
 
-final class LibraryRepository: ObservableObject {
+final class DictionaryRepository: ObservableObject {
     
-    private let path = "library"
+    private let path = "dictionary"
     private let store = Firestore.firestore()
-    @Published var libraryModel: LibraryModel = LibraryModel()
+    @Published var dictionary: DictionaryModel = DictionaryModel(name: "")
     
     init() {
         get()
@@ -25,17 +25,17 @@ final class LibraryRepository: ObservableObject {
                 print(error)
                 return
             }
-            self.libraryModel.addDictionaries(dictionaries: snapshot?.documents.compactMap {
-                try? $0.data(as: DictionaryModel.self)
+            self.dictionary.addWords(words: snapshot?.documents.compactMap {
+                try? $0.data(as: WordModel.self)
             } ?? [])
         }
     }
     
-    func add(_ dictionary: DictionaryModel) {
+    func add(_ word: WordModel) {
         do {
-            _ = try store.collection(path).addDocument(from: dictionary)
+            _ = try store.collection(path).addDocument(from: word)
         } catch {
-            fatalError("Adding a dictionary failed")
+            fatalError("Adding a word failed")
         }
         
     }

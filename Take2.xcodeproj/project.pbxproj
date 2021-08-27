@@ -21,6 +21,8 @@
 		AA9285DD2667EB5100164579 /* EditWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9285DC2667EB5100164579 /* EditWordView.swift */; };
 		AA9285DF2667EBD300164579 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9285DE2667EBD300164579 /* LibraryViewModel.swift */; };
 		AA9285E12667EBDF00164579 /* DictionaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9285E02667EBDF00164579 /* DictionaryViewModel.swift */; };
+		AAAB076C26D8A80800EB64E2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAAB076B26D8A80800EB64E2 /* GoogleService-Info.plist */; };
+		AAAB076E26D8AC4D00EB64E2 /* DictionaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAB076D26D8AC4D00EB64E2 /* DictionaryRepository.swift */; };
 		AAF44C8F26D7F78400E0B0AE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AAF44C8E26D7F78400E0B0AE /* FirebaseFirestore */; };
 		AAF44C9126D7F78400E0B0AE /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = AAF44C9026D7F78400E0B0AE /* FirebaseFirestoreSwift-Beta */; };
 		AAF44C9426D7F7BF00E0B0AE /* LibraryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF44C9326D7F7BF00E0B0AE /* LibraryRepository.swift */; };
@@ -43,6 +45,8 @@
 		AA9285DC2667EB5100164579 /* EditWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWordView.swift; sourceTree = "<group>"; };
 		AA9285DE2667EBD300164579 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		AA9285E02667EBDF00164579 /* DictionaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryViewModel.swift; sourceTree = "<group>"; };
+		AAAB076B26D8A80800EB64E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AAAB076D26D8AC4D00EB64E2 /* DictionaryRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryRepository.swift; sourceTree = "<group>"; };
 		AAF44C9326D7F7BF00E0B0AE /* LibraryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,6 +87,7 @@
 				AA9285BC2667E67200164579 /* ContentView.swift */,
 				AA9285BE2667E67500164579 /* Assets.xcassets */,
 				AA9285C32667E67500164579 /* Info.plist */,
+				AAAB076B26D8A80800EB64E2 /* GoogleService-Info.plist */,
 				AA9285C02667E67500164579 /* Preview Content */,
 			);
 			path = Take2;
@@ -142,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				AAF44C9326D7F7BF00E0B0AE /* LibraryRepository.swift */,
+				AAAB076D26D8AC4D00EB64E2 /* DictionaryRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -212,6 +218,7 @@
 			files = (
 				AA9285C22667E67500164579 /* Preview Assets.xcassets in Resources */,
 				AA9285BF2667E67500164579 /* Assets.xcassets in Resources */,
+				AAAB076C26D8A80800EB64E2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA9285D72667EB0D00164579 /* DictionaryView.swift in Sources */,
+				AAAB076E26D8AC4D00EB64E2 /* DictionaryRepository.swift in Sources */,
 				AA9285BD2667E67200164579 /* ContentView.swift in Sources */,
 				AA9285D12667E9BC00164579 /* DictionaryModel.swift in Sources */,
 				AA9285DB2667EB4500164579 /* AddWordView.swift in Sources */,
