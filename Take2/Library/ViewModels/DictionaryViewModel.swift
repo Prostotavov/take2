@@ -35,6 +35,9 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.printContent()
     }
     
+    // MARK: Bad Practice
+    // нужно удалить ненужные функции и переименовать оставшиеся
+    
     func addWordToRepository(_ words: WordModel) {
         dictionaryRepository.add(words)
     }

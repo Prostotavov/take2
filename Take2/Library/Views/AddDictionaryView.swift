@@ -46,6 +46,9 @@ struct AddDictionaryView: View {
                                     Spacer()
                                     Button(action: {
                                         libraryViewModel.addDictionaryToRepository(dict)
+                                        // MARK: Delete and Rename
+                                        // уже ненужная функция, ее нужно удалить и переименовать новую,
+                                        // которая заменила старую
 //                                        libraryViewModel.addDictionary(dictionary: dict)
                                         showAddDictView = false
                                     }, label: {

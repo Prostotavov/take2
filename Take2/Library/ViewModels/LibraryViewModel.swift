@@ -25,6 +25,9 @@ class LibraryViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    // MARK: Bad Practice
+    // нужно удалить ненужные функции и переименовать оставшиеся
+    
     func addDictionaryToRepository(_ dictionaries: DictionaryModel) {
         libraryRepository.add(dictionaries)
     }

@@ -9,7 +9,13 @@ import Foundation
 
 struct LibraryModel {
     
+    // MARK: Future Feaches
+    // В будущем будет несколько библиотек, между которыми можно будет переключатся
+    
     private(set) var dictionaries: Array<DictionaryModel>
+    
+    // MARK: Bad Practice
+    // нужно удалить ненужные функции и переименовать оставшиеся
     
     mutating func addDictionary(dictionary: DictionaryModel) {
         self.dictionaries.append(dictionary)

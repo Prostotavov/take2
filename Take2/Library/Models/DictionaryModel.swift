@@ -11,15 +11,29 @@ import FirebaseFirestoreSwift
 class DictionaryModel: Identifiable, Codable {
     
     @DocumentID var id = UUID().uuidString
+    
+    // MARK: Future Feaches
+    // В будущем можно будет изменять название словаря
     var name: String
     
     private(set) var words: Array<WordModel>
     
+    
+    
     init(name: String) {
         self.name = name
         self.words = Array<WordModel>()
+        // MARK: Bad Practice
+        // Лучше всего делать отдельную структуру для дебага
+        // и так ее и назвать 'struct Debage'
+        // там будет вся логика и все нужные функции.
+        // лучше всего реализовать в ней удобные инициализаторы(convinient init)
+        // чтобы структура реализовывала нужные нам функции
         print("DM init name")
     }
+    
+    // MARK: Bad Practice2
+    // нужно удалить ненужные функции и переименовать оставшиеся
     
     func addWord(word: WordModel) {
         self.words.append(WordModel(name: word.name, translate: word.translate, analogy: word.analogy, hint: word.hint))

@@ -54,6 +54,10 @@ struct LibraryView: View {
         }
     }
     
+    // MARK: Bad practice
+    // Вся логика должна быть в модели.
+    // Как только додумаюсь как это туда упрятать, то сразу сделаю
+    
     private func delete(at offsets: IndexSet) {
         offsets.map { libraryViewModel.dictionaries[$0] }.forEach(libraryViewModel.deleteDictionaryFromRepository)
         }

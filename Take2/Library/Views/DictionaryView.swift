@@ -12,6 +12,11 @@ struct DictionaryView: View {
     @Environment(\.presentationMode) var presentationMode
     @State var showAddWordView = false
     @State var showEditWordView = false
+    
+    // MARK: Bad practice
+    // непонятно, что за переменная isFetchView, зачем нужна и что делает
+    // она обновляет View как только изменяется состояние List
+    // нужно придумать другой способ, как обновлять View
     @State var isFetchView = false
     @ObservedObject var dictionaryViewModel: DictionaryViewModel
     @State var index: Int = 0
@@ -43,10 +48,12 @@ struct DictionaryView: View {
                     .onDelete(perform: { indexSet in
 //                        dictionaryViewModel.deleteWord(at: indexSet)
                         delete(at: indexSet)
+                        // View обновляется при удалениии объекта
                         isFetchView.toggle()
                     })
                     .onMove(perform: { indices, newOffset in
                         dictionaryViewModel.moveWord(indices: indices, newOffset: newOffset)
+                        // View обновляется при перемещении объекта
                         isFetchView.toggle()
                     })
                 }
@@ -80,6 +87,7 @@ struct DictionaryView: View {
                 }
             }
             .blur(radius: showAddWordView || showEditWordView ? 3.0 : 0)
+            // View обновляется если isFetchView была изменена 
             .blur(radius: isFetchView ? 0 : 0)
             .navigationBarHidden(true)
             if showAddWordView {
@@ -90,6 +98,10 @@ struct DictionaryView: View {
             }
         }
     }
+    
+    // MARK: Bad practice2
+    // Вся логика должна быть в модели.
+    // Как только додумаюсь как это туда упрятать, то сразу сделаю
     
     private func delete(at offsets: IndexSet) {
         offsets.map { dictionaryViewModel.words[$0] }
