@@ -10,7 +10,7 @@ import Combine
 
 class DictionaryViewModel: ObservableObject {
         
-    @Published var dictionaryRepository = DictionaryRepository()
+    @Published var dictionaryRepository: DictionaryRepository
     @Published private var dictionaryModel: DictionaryModel
     
     private var cancellables: Set<AnyCancellable> = []
@@ -25,6 +25,7 @@ class DictionaryViewModel: ObservableObject {
     
     init(dictionaryModel: DictionaryModel) {
         self.dictionaryModel = dictionaryModel
+        self.dictionaryRepository = DictionaryRepository(dictionary: dictionaryModel)
         dictionaryRepository.$dictionary
             .assign(to: \.dictionaryModel, on: self)
             .store(in: &cancellables)

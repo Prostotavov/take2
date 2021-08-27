@@ -14,9 +14,10 @@ final class DictionaryRepository: ObservableObject {
     private let libraryPath = "library"
     var dictionaryPath: String = "dictionary"
     private let store = Firestore.firestore()
-    @Published var dictionary: DictionaryModel = DictionaryModel(name: "dictionaryPath")
+    @Published var dictionary: DictionaryModel
     
-    init() {
+    init(dictionary: DictionaryModel) {
+        self.dictionary = dictionary
         dictionaryPath = dictionary.name
         get()
     }
