@@ -31,6 +31,7 @@ final class DictionaryRepository: ObservableObject {
                 print(error)
                 return
             }
+            self.dictionary.deleleAllWords()
             self.dictionary.addWords(words: snapshot?.documents.compactMap {
                 try? $0.data(as: WordModel.self)
             } ?? [])

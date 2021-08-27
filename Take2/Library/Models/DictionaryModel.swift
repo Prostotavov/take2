@@ -35,6 +35,10 @@ class DictionaryModel: Identifiable, Codable {
         words.remove(atOffsets: indexSet)
     }
     
+    func deleleAllWords() {
+        words = []
+    }
+    
     func editWord(index: Int, newWord: WordModel) {
         self.words[index] = newWord
     }

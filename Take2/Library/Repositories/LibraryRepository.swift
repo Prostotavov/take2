@@ -25,6 +25,7 @@ final class LibraryRepository: ObservableObject {
                 print(error)
                 return
             }
+            self.libraryModel.deleleAllDictionaries()
             self.libraryModel.addDictionaries(dictionaries: snapshot?.documents.compactMap {
                 try? $0.data(as: DictionaryModel.self)
             } ?? [])

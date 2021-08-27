@@ -25,6 +25,10 @@ struct LibraryModel {
             dictionaries.remove(atOffsets: indexSet)
     }
     
+    mutating func deleleAllDictionaries() {
+        dictionaries = []
+    }
+    
     func choose(dict: DictionaryModel) -> DictionaryModel {
         let index = dictionaries.firstIndex(where: { $0.id == dict.id }) ?? 0
         return self.dictionaries[index]
