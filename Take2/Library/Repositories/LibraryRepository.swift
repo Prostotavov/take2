@@ -11,7 +11,7 @@ import Combine
 
 final class LibraryRepository: ObservableObject {
     
-    private let libratyPath = "library"
+    private let libraryPath = "library"
     private let store = Firestore.firestore()
     @Published var libraryModel: LibraryModel = LibraryModel()
     
@@ -20,7 +20,7 @@ final class LibraryRepository: ObservableObject {
     }
     
     func get() {
-        store.collection(libratyPath).addSnapshotListener { snapshot, error in
+        store.collection(libraryPath).addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error)
                 return
@@ -36,7 +36,7 @@ final class LibraryRepository: ObservableObject {
         let dictionatyPath = dictionary.name
         
         do {
-            _ = try store.collection(libratyPath).document(dictionatyPath).setData(from: dictionary)
+            _ = try store.collection(libraryPath).document(dictionatyPath).setData(from: dictionary)
         } catch {
             fatalError("Adding a dictionary failed")
         }
@@ -45,7 +45,7 @@ final class LibraryRepository: ObservableObject {
     func delete(_ dictionary: DictionaryModel) {
         
         guard let documentId = dictionary.id else { return }
-        store.collection(libratyPath).document(documentId).delete { error in
+        store.collection(libraryPath).document(documentId).delete { error in
             if let error = error {
                 print("Unable to remove this dictionary: \(error.localizedDescription)")
             }
@@ -56,7 +56,7 @@ final class LibraryRepository: ObservableObject {
         guard let documentId = dictionary.id else { return }
         
         do {
-            try store.collection(libratyPath).document(documentId).setData(from: dictionary)
+            try store.collection(libraryPath).document(documentId).setData(from: dictionary)
         } catch {
             fatalError("Updating a dictionary failed")
         }

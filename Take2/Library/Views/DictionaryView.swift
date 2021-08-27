@@ -41,7 +41,8 @@ struct DictionaryView: View {
                         }
                     }
                     .onDelete(perform: { indexSet in
-                        dictionaryViewModel.deleteWord(at: indexSet)
+//                        dictionaryViewModel.deleteWord(at: indexSet)
+                        delete(at: indexSet)
                         isFetchView.toggle()
                     })
                     .onMove(perform: { indices, newOffset in
@@ -89,6 +90,11 @@ struct DictionaryView: View {
             }
         }
     }
+    
+    private func delete(at offsets: IndexSet) {
+        offsets.map { dictionaryViewModel.words[$0] }
+            .forEach(dictionaryViewModel.deleteWordFromRepository)
+        }
 }
 
 struct DictionaryView_Previews: PreviewProvider {

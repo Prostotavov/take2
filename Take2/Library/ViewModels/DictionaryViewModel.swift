@@ -39,6 +39,11 @@ class DictionaryViewModel: ObservableObject {
         dictionaryRepository.add(words)
     }
     
+    func deleteWordFromRepository(_ word: WordModel) {
+        dictionaryRepository.delete(word)
+    }
+
+    
     func addWord(word: WordModel) {
         dictionaryModel.addWord(word: word)
     }
