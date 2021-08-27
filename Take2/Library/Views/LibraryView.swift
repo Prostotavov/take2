@@ -24,7 +24,7 @@ struct LibraryView: View {
                             }
                     }
                     .onDelete(perform: { indexSet in
-                        libraryViewModel.deleteDictionary(at: indexSet)
+//                        libraryViewModel.deleteDictionary(at: indexSet)
                         delete(at: indexSet)
                     })
                     .onMove(perform: { indices, newOffset in

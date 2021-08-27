@@ -52,8 +52,8 @@ final class LibraryRepository: ObservableObject {
         // лучше передавать ссылку одним и тем же способом
         // а то здесь это происходит с помощью 'let documentId'
         // а в другой половине проекта с 'dictionatyPath'
-        guard let documentId = dictionary.id else { return }
-        store.collection(libraryPath).document(documentId).delete { error in
+        let dictionatyPath = dictionary.name
+        store.collection(libraryPath).document(dictionatyPath).delete { error in
             if let error = error {
                 print("Unable to remove this dictionary: \(error.localizedDescription)")
             }
@@ -61,10 +61,10 @@ final class LibraryRepository: ObservableObject {
     }
     
     func update(_ dictionary: DictionaryModel) {
-        guard let documentId = dictionary.id else { return }
+        let dictionatyPath = dictionary.name
         
         do {
-            try store.collection(libraryPath).document(documentId).setData(from: dictionary)
+            try store.collection(libraryPath).document(dictionatyPath).setData(from: dictionary)
         } catch {
             fatalError("Updating a dictionary failed")
         }

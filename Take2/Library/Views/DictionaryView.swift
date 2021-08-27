@@ -17,7 +17,7 @@ struct DictionaryView: View {
     // непонятно, что за переменная isFetchView, зачем нужна и что делает
     // она обновляет View как только изменяется состояние List
     // нужно придумать другой способ, как обновлять View
-    @State var isFetchView = false
+//    @State var isFetchView = false
     @ObservedObject var dictionaryViewModel: DictionaryViewModel
     @State var index: Int = 0
     
@@ -49,12 +49,12 @@ struct DictionaryView: View {
 //                        dictionaryViewModel.deleteWord(at: indexSet)
                         delete(at: indexSet)
                         // View обновляется при удалениии объекта
-                        isFetchView.toggle()
+//                        isFetchView.toggle()
                     })
                     .onMove(perform: { indices, newOffset in
                         dictionaryViewModel.moveWord(indices: indices, newOffset: newOffset)
                         // View обновляется при перемещении объекта
-                        isFetchView.toggle()
+//                        isFetchView.toggle()
                     })
                 }
                 .toolbar {
@@ -87,8 +87,8 @@ struct DictionaryView: View {
                 }
             }
             .blur(radius: showAddWordView || showEditWordView ? 3.0 : 0)
-            // View обновляется если isFetchView была изменена 
-            .blur(radius: isFetchView ? 0 : 0)
+            // View обновляется если isFetchView была изменена
+//            .blur(radius: isFetchView ? 0 : 0)
             .navigationBarHidden(true)
             if showAddWordView {
                 AddWordView(showAddWordView: $showAddWordView, dictionaryViewModel: dictionaryViewModel)

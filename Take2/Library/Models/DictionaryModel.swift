@@ -8,7 +8,7 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class DictionaryModel: Identifiable, Codable {
+struct DictionaryModel: Identifiable, Codable {
     
     @DocumentID var id = UUID().uuidString
     
@@ -35,25 +35,25 @@ class DictionaryModel: Identifiable, Codable {
     // MARK: Bad Practice2
     // нужно удалить ненужные функции и переименовать оставшиеся
     
-    func addWord(word: WordModel) {
+    mutating func addWord(word: WordModel) {
         self.words.append(WordModel(name: word.name, translate: word.translate, analogy: word.analogy, hint: word.hint))
     }
     
-    func addWords(words: [WordModel]) {
+    mutating func addWords(words: [WordModel]) {
         for word in words {
             self.words.append(word)
         }
     }
     
-    func deleteWord(at indexSet: IndexSet) {
+    mutating func deleteWord(at indexSet: IndexSet) {
         words.remove(atOffsets: indexSet)
     }
     
-    func deleleAllWords() {
+    mutating func deleleAllWords() {
         words = []
     }
     
-    func editWord(index: Int, newWord: WordModel) {
+    mutating func editWord(index: Int, newWord: WordModel) {
         self.words[index] = newWord
     }
     
@@ -62,7 +62,7 @@ class DictionaryModel: Identifiable, Codable {
         return index
     }
     
-    func moveWord(indices: IndexSet, newOffset: Int) {
+    mutating func moveWord(indices: IndexSet, newOffset: Int) {
         words.move(fromOffsets: indices, toOffset: newOffset)
     }
     

@@ -54,28 +54,28 @@ final class DictionaryRepository: ObservableObject {
         
     }
     
-    func delete(_ words: WordModel) {
+    func delete(_ word: WordModel) {
         
         // MARK: Bad practice2
         // лучше передавать ссылку одним и тем же способом
         // а то здесь это происходит с помощью 'let documentId'
         // а в другой половине проекта с 'dictionatyPath'
         
-        guard let documentId = words.id else { return }
+        let wordPath = word.name
         store.collection(libraryPath).document(dictionaryPath)
-            .collection(wordsPath).document(documentId).delete { error in
+            .collection(wordsPath).document(wordPath).delete { error in
             if let error = error {
                 print("Unable to remove this word: \(error.localizedDescription)")
             }
         }
     }
     
-    func update(_ dictionary: DictionaryModel) {
-        guard let documentId = dictionary.id else { return }
+    func update(_ word: WordModel) {
+        let wordPath = word.name
         
         do {
             try store.collection(libraryPath).document(dictionaryPath)
-                .collection(wordsPath).document(documentId).setData(from: dictionary)
+                .collection(wordsPath).document(wordPath).setData(from: dictionary)
         } catch {
             fatalError("Updating a word failed")
         }
