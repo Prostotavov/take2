@@ -42,8 +42,7 @@ struct EditWordView: View {
                             })
                             Spacer()
                             Button(action: {
-//                                dictionaryViewModel.editWord(index: index, newWord: word)
-                                dictionaryViewModel.updateWordInRepository(word)
+                                dictionaryViewModel.update(word)
                                 showEditWordView = false
                             }, label: {
                                 Text("Save")

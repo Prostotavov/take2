@@ -38,28 +38,15 @@ class DictionaryViewModel: ObservableObject {
     // MARK: Bad Practice
     // нужно удалить ненужные функции и переименовать оставшиеся
     
-    func addWordToRepository(_ words: WordModel) {
+    func add(_ words: WordModel) {
         dictionaryRepository.add(words)
     }
     
-    func deleteWordFromRepository(_ word: WordModel) {
-        dictionaryRepository.delete(word)
+    func remove(_ word: WordModel) {
+        dictionaryRepository.remove(word)
     }
 
-    
-    func addWord(word: WordModel) {
-        dictionaryModel.addWord(word: word)
-    }
-    
-    func deleteWord(at indexSet: IndexSet) {
-        dictionaryModel.deleteWord(at: indexSet)
-    }
-    
-    func editWord(index: Int, newWord: WordModel) {
-        dictionaryModel.editWord(index: index, newWord: newWord)
-    }
-    
-    func updateWordInRepository(_ word: WordModel) {
+    func update(_ word: WordModel) {
         dictionaryRepository.update(word)
     }
     

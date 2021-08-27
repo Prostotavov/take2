@@ -18,8 +18,6 @@ struct DictionaryModel: Identifiable, Codable {
     
     private(set) var words: Array<WordModel>
     
-    
-    
     init(name: String) {
         self.name = name
         self.words = Array<WordModel>()
@@ -35,9 +33,6 @@ struct DictionaryModel: Identifiable, Codable {
     // MARK: Bad Practice2
     // нужно удалить ненужные функции и переименовать оставшиеся
     
-    mutating func addWord(word: WordModel) {
-        self.words.append(WordModel(name: word.name, translate: word.translate, analogy: word.analogy, hint: word.hint))
-    }
     
     mutating func addWords(words: [WordModel]) {
         for word in words {
@@ -45,18 +40,10 @@ struct DictionaryModel: Identifiable, Codable {
         }
     }
     
-    mutating func deleteWord(at indexSet: IndexSet) {
-        words.remove(atOffsets: indexSet)
-    }
-    
     mutating func deleleAllWords() {
         words = []
     }
-    
-    mutating func editWord(index: Int, newWord: WordModel) {
-        self.words[index] = newWord
-    }
-    
+
     func choose(word: WordModel) -> Int {
         let index = words.firstIndex(where: { $0.id == word.id }) ?? 0
         return index

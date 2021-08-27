@@ -24,7 +24,6 @@ struct LibraryView: View {
                             }
                     }
                     .onDelete(perform: { indexSet in
-//                        libraryViewModel.deleteDictionary(at: indexSet)
                         delete(at: indexSet)
                     })
                     .onMove(perform: { indices, newOffset in
@@ -59,7 +58,7 @@ struct LibraryView: View {
     // Как только додумаюсь как это туда упрятать, то сразу сделаю
     
     private func delete(at offsets: IndexSet) {
-        offsets.map { libraryViewModel.dictionaries[$0] }.forEach(libraryViewModel.deleteDictionaryFromRepository)
+        offsets.map { libraryViewModel.dictionaries[$0] }.forEach(libraryViewModel.remove)
         }
     
 }

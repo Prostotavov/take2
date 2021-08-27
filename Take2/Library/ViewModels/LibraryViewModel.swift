@@ -28,24 +28,16 @@ class LibraryViewModel: ObservableObject {
     // MARK: Bad Practice
     // нужно удалить ненужные функции и переименовать оставшиеся
     
-    func addDictionaryToRepository(_ dictionaries: DictionaryModel) {
+    func add(_ dictionaries: DictionaryModel) {
         libraryRepository.add(dictionaries)
     }
     
-    func deleteDictionaryFromRepository(_ dictionary: DictionaryModel) {
-        libraryRepository.delete(dictionary)
+    func remove(_ dictionary: DictionaryModel) {
+        libraryRepository.remove(dictionary)
     }
     
-    func updateDictionaryInRepository(_ dictionary: DictionaryModel) {
+    func update(_ dictionary: DictionaryModel) {
         libraryRepository.update(dictionary)
-    }
-    
-    func addDictionary(dictionary: DictionaryModel) {
-        libraryModel.addDictionary(dictionary: dictionary)
-    }
-    
-    func deleteDictionary(at indexSet: IndexSet) {
-        libraryModel.deleteDictionary(at: indexSet)
     }
     
     func choose(dict: DictionaryModel) -> DictionaryModel {

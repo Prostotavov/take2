@@ -53,7 +53,7 @@ final class DictionaryRepository: ObservableObject {
         
     }
     
-    func delete(_ word: WordModel) {
+    func remove(_ word: WordModel) {
         guard let wordPath = word.id else { return }
         store.collection(libraryPath).document(dictionaryPath)
             .collection(wordsPath).document(wordPath).delete { error in

@@ -36,7 +36,6 @@ final class LibraryRepository: ObservableObject {
     }
     
     func add(_ dictionary: DictionaryModel) {
-        
         guard let dictionaryPath = dictionary.id else { return }
         do {
             _ = try store.collection(libraryPath).document(dictionaryPath).setData(from: dictionary)
@@ -45,7 +44,7 @@ final class LibraryRepository: ObservableObject {
         }
     }
     
-    func delete(_ dictionary: DictionaryModel) {
+    func remove(_ dictionary: DictionaryModel) {
         guard let dictionaryPath = dictionary.id else { return }
         store.collection(libraryPath).document(dictionaryPath).delete { error in
             if let error = error {

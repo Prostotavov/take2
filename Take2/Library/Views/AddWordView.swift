@@ -45,11 +45,7 @@ struct AddWordView: View {
                                     })
                                     Spacer()
                                     Button(action: {
-                                        dictionaryViewModel.addWordToRepository(word)
-                                        // MARK: Delete and Rename
-                                        // уже ненужная функция, ее нужно удалить и переименовать новую,
-                                        // которая заменила старую
-//                                        dictionaryViewModel.addWord(word: word)
+                                        dictionaryViewModel.add(word)
                                         showAddWordView = false
                                         dictionaryViewModel.printContent()
                                     }, label: {

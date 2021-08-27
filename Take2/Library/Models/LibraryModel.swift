@@ -17,18 +17,14 @@ struct LibraryModel {
     // MARK: Bad Practice
     // нужно удалить ненужные функции и переименовать оставшиеся
     
-    mutating func addDictionary(dictionary: DictionaryModel) {
-        self.dictionaries.append(dictionary)
+    init() {
+        self.dictionaries = Array<DictionaryModel>()
     }
     
     mutating func addDictionaries(dictionaries: [DictionaryModel]) {
         for dict in dictionaries {
             self.dictionaries.append(dict)
         }
-    }
-    
-    mutating func deleteDictionary(at indexSet: IndexSet) {
-            dictionaries.remove(atOffsets: indexSet)
     }
     
     mutating func deleleAllDictionaries() {
@@ -42,10 +38,6 @@ struct LibraryModel {
     
     mutating func moveDictionary(indices: IndexSet, newOffset: Int) {
         dictionaries.move(fromOffsets: indices, toOffset: newOffset)
-    }
-    
-    init() {
-        self.dictionaries = Array<DictionaryModel>()
     }
     
     // MARK: functions for debug
