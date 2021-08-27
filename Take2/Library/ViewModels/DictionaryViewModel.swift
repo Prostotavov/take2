@@ -35,8 +35,8 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.printContent()
     }
     
-    func addWordToRepository(_ words: WordModel, dictionaryPath: String) {
-        dictionaryRepository.add(words, dictionaryPath: dictionaryPath)
+    func addWordToRepository(_ words: WordModel) {
+        dictionaryRepository.add(words)
     }
     
     func addWord(word: WordModel) {

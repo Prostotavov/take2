@@ -38,7 +38,7 @@ final class DictionaryRepository: ObservableObject {
         }
     }
     
-    func add(_ word: WordModel, dictionaryPath: String) {
+    func add(_ word: WordModel) {
         
         let wordsPath = "words"
         let wordPath = word.name
