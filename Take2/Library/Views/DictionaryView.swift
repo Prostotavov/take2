@@ -40,7 +40,7 @@ struct DictionaryView: View {
                         }
                     }
                     .onDelete(perform: { indexSet in
-                        delete(at: indexSet)
+                        dictionaryViewModel.delete(at: indexSet)
                     })
                     .onMove(perform: { indices, newOffset in
                         dictionaryViewModel.moveWord(indices: indices, newOffset: newOffset)
@@ -85,15 +85,6 @@ struct DictionaryView: View {
             }
         }
     }
-    
-    // MARK: Bad practice
-    // Вся логика должна быть в модели.
-    // Как только додумаюсь как это туда упрятать, то сразу сделаю
-    
-    private func delete(at offsets: IndexSet) {
-        offsets.map { dictionaryViewModel.words[$0] }
-            .forEach(dictionaryViewModel.remove)
-        }
 }
 
 struct DictionaryView_Previews: PreviewProvider {

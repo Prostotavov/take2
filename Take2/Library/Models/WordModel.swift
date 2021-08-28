@@ -12,6 +12,7 @@ struct WordModel: Identifiable, Codable {
     
     @DocumentID var id = UUID().uuidString
     @ServerTimestamp var createdTime: Timestamp?
+    var usersOrder = 0
     
     // MARK: Future Feaches
     // В перспективе такие поля как: translate, analogy, hint

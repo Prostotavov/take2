@@ -48,6 +48,11 @@ class LibraryViewModel: ObservableObject {
         libraryModel.moveDictionary(indices: indices, newOffset: newOffset)
     }
     
+    func delete(at offsets: IndexSet) {
+        offsets.map { libraryModel.dictionaries[$0] }
+            .forEach(self.remove)
+        }
+    
     // MARK: functions for debug
     
     func printContent () {

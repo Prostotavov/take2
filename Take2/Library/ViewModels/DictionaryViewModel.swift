@@ -23,8 +23,8 @@ class DictionaryViewModel: ObservableObject {
         return dictionaryModel.name
     }
     
-    var createdTime: Timestamp? {
-        return dictionaryModel.createdTime
+    var usersOrder: Int {
+        return dictionaryModel.usersOrder
     }
     
     var words: Array<WordModel> {
@@ -65,6 +65,11 @@ class DictionaryViewModel: ObservableObject {
     func moveWord(indices: IndexSet, newOffset: Int) {
         dictionaryModel.moveWord(indices: indices, newOffset: newOffset)
     }
+    
+    func delete(at offsets: IndexSet) {
+        offsets.map { dictionaryModel.words[$0] }
+            .forEach(self.remove)
+        }
     
     // MARK: functions for debug
     

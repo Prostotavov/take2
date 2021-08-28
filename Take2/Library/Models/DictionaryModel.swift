@@ -12,6 +12,7 @@ struct DictionaryModel: Identifiable, Codable {
     
     @DocumentID var id = UUID().uuidString
     @ServerTimestamp var createdTime: Timestamp?
+    var usersOrder = 0
     
     // MARK: Future Feaches
     // В будущем можно будет изменять название словаря

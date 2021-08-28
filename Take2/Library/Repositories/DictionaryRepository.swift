@@ -51,10 +51,12 @@ final class DictionaryRepository: ObservableObject {
         } catch {
             fatalError("Adding a word failed")
         }
-        
+        self.setUsersOrderIfAdd(wordPath: wordPath)
     }
     
     func remove(_ word: WordModel) {
+        
+        let removedId = word.usersOrder
         guard let wordPath = word.id else { return }
         store.collection(libraryPath).document(dictionaryPath)
             .collection(wordsPath).document(wordPath).delete { error in
@@ -62,12 +64,46 @@ final class DictionaryRepository: ObservableObject {
                 print("Unable to remove this word: \(error.localizedDescription)")
             }
         }
+        self.setUsersOrderIfRemove(removedId: removedId)
     }
     
     func update(_ word: WordModel) {
+        
         guard let wordPath = word.id else { return }
                 store.collection(libraryPath).document(dictionaryPath)
                 .collection(wordsPath).document(wordPath).updateData(["analogy":word.analogy,"hint":word.hint,
                      "name":word.name, "translate":word.translate])
     }
+    
+    func setUsersOrderIfAdd(wordPath: String) {
+        
+        store.collection(libraryPath).document(self.dictionaryPath)
+            .collection(self.wordsPath).getDocuments() { querySnapshot, error in
+            if let error = error {
+                print("Error getting documents: \(error)");
+            }
+            else {
+                var count = -1 // делаем так, чтобы индексация начиналась с нуля
+                for _ in querySnapshot!.documents {
+                    count += 1
+                }
+                self.store.collection(self.libraryPath).document(self.dictionaryPath)
+                    .collection(self.wordsPath).document(wordPath)
+                    .updateData(["usersOrder" : count ])
+            }
+        }
+    }
+    
+    func setUsersOrderIfRemove(removedId: Int) {
+        
+        for word in dictionary.words {
+        guard let wordPath = word.id else { return }
+            if word.usersOrder > removedId {
+                self.store.collection(self.libraryPath).document(dictionaryPath)
+                    .collection(self.wordsPath).document(wordPath)
+                    .updateData(["usersOrder" : word.usersOrder - 1 ])
+            }
+        }
+    }
+
 }
