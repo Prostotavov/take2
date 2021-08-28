@@ -11,6 +11,7 @@ import FirebaseFirestoreSwift
 struct DictionaryModel: Identifiable, Codable {
     
     @DocumentID var id = UUID().uuidString
+    @ServerTimestamp var createdTime: Timestamp?
     
     // MARK: Future Feaches
     // В будущем можно будет изменять название словаря

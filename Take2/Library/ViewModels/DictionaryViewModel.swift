@@ -7,6 +7,10 @@
 
 import Foundation
 import Combine
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+
 
 class DictionaryViewModel: ObservableObject {
         
@@ -17,6 +21,10 @@ class DictionaryViewModel: ObservableObject {
     
     var name: String {
         return dictionaryModel.name
+    }
+    
+    var createdTime: Timestamp? {
+        return dictionaryModel.createdTime
     }
     
     var words: Array<WordModel> {

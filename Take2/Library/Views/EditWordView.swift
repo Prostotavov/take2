@@ -54,12 +54,7 @@ struct EditWordView: View {
         }
         .ignoresSafeArea()
         .onAppear() {
-            // MARK: Check
-            // сделать нормальный комментарий, почему такое значение '-2'
-            // или убрать его, если оно не нужно
-            if index != -2 {
             word = dictionaryViewModel.words[index]
-            }
         }
     }
 }

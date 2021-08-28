@@ -20,7 +20,8 @@ final class LibraryRepository: ObservableObject {
     }
     
     func get() {
-        store.collection(libraryPath).addSnapshotListener { snapshot, error in
+        store.collection(libraryPath).order(by: "createdTime")
+            .addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error)
                 return
@@ -32,6 +33,7 @@ final class LibraryRepository: ObservableObject {
             self.libraryModel.addDictionaries(dictionaries: snapshot?.documents.compactMap {
                 try? $0.data(as: DictionaryModel.self)
             } ?? [])
+            
         }
     }
     

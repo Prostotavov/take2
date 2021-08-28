@@ -26,7 +26,8 @@ final class DictionaryRepository: ObservableObject {
     func get() {
         
         store.collection(libraryPath).document(dictionaryPath)
-            .collection(wordsPath).addSnapshotListener { snapshot, error in
+            .collection(wordsPath).order(by: "createdTime")
+            .addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error)
                 return

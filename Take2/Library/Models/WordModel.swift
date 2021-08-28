@@ -11,6 +11,7 @@ import FirebaseFirestoreSwift
 struct WordModel: Identifiable, Codable {
     
     @DocumentID var id = UUID().uuidString
+    @ServerTimestamp var createdTime: Timestamp?
     
     // MARK: Future Feaches
     // В перспективе такие поля как: translate, analogy, hint
