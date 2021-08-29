@@ -12,6 +12,7 @@ import Combine
 final class LibraryRepository: ObservableObject {
     
     private let libraryPath = "library"
+    private let wordsPath = "words"
     private let store = Firestore.firestore()
     @Published var libraryModel: LibraryModel = LibraryModel()
     
@@ -52,6 +53,40 @@ final class LibraryRepository: ObservableObject {
         
         let removedId = dictionary.usersOrder
         guard let dictionaryPath = dictionary.id else { return }
+        
+        // MARK: Super bad practice
+        // когда выучу как работать с потоками, то нужно будет отрефакторить тут все.
+        
+        // записываем в переменную tempDict слова, которые хранятся в словаре
+        var tempDict = DictionaryModel(name: "temporary")
+        
+        // извлекаем слова из бд в tempDict
+        store.collection(libraryPath).document(dictionaryPath)
+            .collection(wordsPath).order(by: "usersOrder")
+            .addSnapshotListener { snapshot, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            tempDict.deleleAllWords()
+            tempDict.addWords(words: snapshot?.documents.compactMap {
+                try? $0.data(as: WordModel.self)
+            } ?? [])
+                
+                // удаляем слова в словаре
+                for word in tempDict.words {
+                    print("something working3")
+                    guard let wordPath = word.id else { return }
+                    self.store.collection(self.libraryPath).document(dictionaryPath)
+                        .collection(self.wordsPath).document(wordPath).delete { error in
+                        if let error = error {
+                            print("Unable to remove these words in the dictionary: \(error.localizedDescription)")
+                        }
+                    }
+                }
+        }
+        
+        // удаление словаря
         store.collection(libraryPath).document(dictionaryPath).delete { error in
             if let error = error {
                 print("Unable to remove this dictionary: \(error.localizedDescription)")

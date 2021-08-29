@@ -33,7 +33,7 @@ struct DictionaryModel: Identifiable, Codable {
         // лучше всего реализовать в ней удобные инициализаторы(convinient init)
         // чтобы структура реализовывала нужные нам функции
         print("DM init name")
-    }
+    } 
     
     // MARK: Bad Practice2
     // нужно удалить ненужные функции и переименовать оставшиеся
