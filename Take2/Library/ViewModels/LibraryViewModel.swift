@@ -25,9 +25,6 @@ class LibraryViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    // MARK: Bad Practice
-    // нужно удалить ненужные функции и переименовать оставшиеся
-    
     func add(_ dictionaries: DictionaryModel) {
         libraryRepository.add(dictionaries)
     }
@@ -35,6 +32,10 @@ class LibraryViewModel: ObservableObject {
     func remove(_ dictionary: DictionaryModel) {
         libraryRepository.remove(dictionary)
     }
+    
+    func delete(at offsets: IndexSet) {
+        libraryRepository.delete(at: offsets)
+        } 
     
     func update(_ dictionary: DictionaryModel) {
         libraryRepository.update(dictionary)
@@ -44,14 +45,13 @@ class LibraryViewModel: ObservableObject {
         libraryModel.choose(dict: dict)
     }
     
-    func moveDictionary(indices: IndexSet, newOffset: Int) {
-        libraryModel.moveDictionary(indices: indices, newOffset: newOffset)
+    func move(oldIndex: Int, newIndex: Int, dictionary: DictionaryModel) {
+        libraryRepository.move(oldIndex: oldIndex, newIndex: newIndex, movedDict: dictionary)
     }
     
-    func delete(at offsets: IndexSet) {
-        offsets.map { libraryModel.dictionaries[$0] }
-            .forEach(self.remove)
-        }
+    func findDictionaryByUsersOrder(usersOrder: Int) -> DictionaryModel? {
+        libraryModel.findDictionaryByUsersOrder(usersOrder: usersOrder)
+    }
     
     // MARK: functions for debug
     

@@ -15,10 +15,10 @@ final class DictionaryRepository: ObservableObject {
     let wordsPath = "words"
     var dictionaryPath: String = "dictionary"
     private let store = Firestore.firestore()
-    @Published var dictionary: DictionaryModel
+    @Published var dictionaryModel: DictionaryModel
     
     init(dictionary: DictionaryModel) {
-        self.dictionary = dictionary
+        self.dictionaryModel = dictionary
         self.dictionaryPath = dictionary.id ?? "dictionary"
         get()
     }
@@ -26,7 +26,7 @@ final class DictionaryRepository: ObservableObject {
     func get() {
         
         store.collection(libraryPath).document(dictionaryPath)
-            .collection(wordsPath).order(by: "createdTime")
+            .collection(wordsPath).order(by: "usersOrder")
             .addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error)
@@ -35,8 +35,8 @@ final class DictionaryRepository: ObservableObject {
             // MARK: Bad practice
             // нужно реализовать добавление словарей по одному
             // а не стирать все словари и записывать все заново и плюс один новый
-            self.dictionary.deleleAllWords()
-            self.dictionary.addWords(words: snapshot?.documents.compactMap {
+            self.dictionaryModel.deleleAllWords()
+            self.dictionaryModel.addWords(words: snapshot?.documents.compactMap {
                 try? $0.data(as: WordModel.self)
             } ?? [])
         }
@@ -67,6 +67,11 @@ final class DictionaryRepository: ObservableObject {
         self.setUsersOrderIfRemove(removedId: removedId)
     }
     
+    func delete(at offsets: IndexSet) {
+        offsets.map { dictionaryModel.words[$0] }
+            .forEach(self.remove)
+        }
+    
     func update(_ word: WordModel) {
         
         guard let wordPath = word.id else { return }
@@ -96,7 +101,7 @@ final class DictionaryRepository: ObservableObject {
     
     func setUsersOrderIfRemove(removedId: Int) {
         
-        for word in dictionary.words {
+        for word in dictionaryModel.words {
         guard let wordPath = word.id else { return }
             if word.usersOrder > removedId {
                 self.store.collection(self.libraryPath).document(dictionaryPath)
@@ -104,6 +109,32 @@ final class DictionaryRepository: ObservableObject {
                     .updateData(["usersOrder" : word.usersOrder - 1 ])
             }
         }
+    }
+    
+    func move(oldIndex: Int, newIndex: Int, movedWord: WordModel){
+        
+        for word in dictionaryModel.words {
+            guard let wordPath = word.id else { return }
+            // так как элемент может перемещаться как вниз, так и вверх
+            if oldIndex < newIndex {
+                if (oldIndex...newIndex).contains(word.usersOrder) {
+                    self.store.collection(self.libraryPath).document(dictionaryPath)
+                        .collection(self.wordsPath).document(wordPath)
+                        .updateData(["usersOrder" : word.usersOrder - 1 ])
+                }
+            } else {
+                if (newIndex...oldIndex).contains(word.usersOrder) {
+                    self.store.collection(self.libraryPath).document(dictionaryPath)
+                        .collection(self.wordsPath).document(wordPath)
+                        .updateData(["usersOrder" : word.usersOrder + 1 ])
+                }
+            }
+        }
+        
+        guard let movedWordPath = movedWord.id else { return }
+        self.store.collection(self.libraryPath).document(dictionaryPath)
+            .collection(self.wordsPath).document(movedWordPath)
+            .updateData(["usersOrder" : newIndex ])
     }
 
 }

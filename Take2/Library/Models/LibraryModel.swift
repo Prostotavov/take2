@@ -36,8 +36,13 @@ struct LibraryModel {
         return self.dictionaries[index]
     }
     
-    mutating func moveDictionary(indices: IndexSet, newOffset: Int) {
-        dictionaries.move(fromOffsets: indices, toOffset: newOffset)
+    func findDictionaryByUsersOrder(usersOrder: Int) -> DictionaryModel? {
+        for dict in dictionaries {
+            if dict.usersOrder == usersOrder {
+                return dict
+            }
+        }
+        return nil
     }
     
     // MARK: functions for debug

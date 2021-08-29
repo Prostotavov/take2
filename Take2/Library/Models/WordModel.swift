@@ -12,7 +12,10 @@ struct WordModel: Identifiable, Codable {
     
     @DocumentID var id = UUID().uuidString
     @ServerTimestamp var createdTime: Timestamp?
-    var usersOrder = 0
+    // MARK: super bad practice
+    // нужно сделать либо обратный отсчет индексов, либо сделать ограничение на словарь
+    // по словам, максимум 100000 слов в словаре
+    var usersOrder = 100000
     
     // MARK: Future Feaches
     // В перспективе такие поля как: translate, analogy, hint

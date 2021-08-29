@@ -34,17 +34,10 @@ class DictionaryViewModel: ObservableObject {
     init(dictionaryModel: DictionaryModel) {
         self.dictionaryModel = dictionaryModel
         self.dictionaryRepository = DictionaryRepository(dictionary: dictionaryModel)
-        dictionaryRepository.$dictionary
+        dictionaryRepository.$dictionaryModel
             .assign(to: \.dictionaryModel, on: self)
             .store(in: &cancellables)
-        
-        print(dictionaryModel.name)
-        print("DVM init for \(self.dictionaryModel.getID() ?? "")")
-        dictionaryModel.printContent()
     }
-    
-    // MARK: Bad Practice
-    // нужно удалить ненужные функции и переименовать оставшиеся
     
     func add(_ words: WordModel) {
         dictionaryRepository.add(words)
@@ -53,6 +46,10 @@ class DictionaryViewModel: ObservableObject {
     func remove(_ word: WordModel) {
         dictionaryRepository.remove(word)
     }
+    
+    func delete(at offsets: IndexSet) {
+        dictionaryRepository.delete(at: offsets)
+        }
 
     func update(_ word: WordModel) {
         dictionaryRepository.update(word)
@@ -62,14 +59,13 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.choose(word: word)
     }
     
-    func moveWord(indices: IndexSet, newOffset: Int) {
-        dictionaryModel.moveWord(indices: indices, newOffset: newOffset)
+    func findWordByUsersOrder(usersOrder: Int) -> WordModel? {
+        dictionaryModel.findWordByUsersOrder(usersOrder: usersOrder)
     }
     
-    func delete(at offsets: IndexSet) {
-        offsets.map { dictionaryModel.words[$0] }
-            .forEach(self.remove)
-        }
+    func move(oldIndex: Int, newIndex: Int, movedWord: WordModel) {
+        dictionaryRepository.move(oldIndex: oldIndex, newIndex: newIndex, movedWord: movedWord)
+    }
     
     // MARK: functions for debug
     

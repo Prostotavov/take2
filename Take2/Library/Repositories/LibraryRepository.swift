@@ -8,8 +8,6 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Combine
-import UIKit
-
 
 final class LibraryRepository: ObservableObject {
     
@@ -23,7 +21,7 @@ final class LibraryRepository: ObservableObject {
     
     func get() {
         
-        store.collection(libraryPath).order(by: "createdTime")
+        store.collection(libraryPath).order(by: "usersOrder")
             .addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error)
@@ -62,6 +60,11 @@ final class LibraryRepository: ObservableObject {
         self.setUsersOrderIfRemove(removedId: removedId)
     }
     
+    func delete(at offsets: IndexSet) {
+        offsets.map { libraryModel.dictionaries[$0] }
+            .forEach(self.remove)
+        }
+    
     func update(_ dictionary: DictionaryModel) {
         
         guard let dictionaryPath = dictionary.id else { return }
@@ -95,6 +98,29 @@ final class LibraryRepository: ObservableObject {
                     .updateData(["usersOrder" : dictionary.usersOrder - 1 ])
             }
         }
+    }
+    
+    func move(oldIndex: Int, newIndex: Int, movedDict: DictionaryModel){
+        
+        for dictionary in libraryModel.dictionaries {
+            guard let dictionaryPath = dictionary.id else { return }
+            // так как элемент может перемещаться как вниз, так и вверх 
+            if oldIndex < newIndex {
+                if (oldIndex...newIndex).contains(dictionary.usersOrder) {
+                    self.store.collection(self.libraryPath).document(dictionaryPath)
+                        .updateData(["usersOrder" : dictionary.usersOrder - 1 ])
+                }
+            } else {
+                if (newIndex...oldIndex).contains(dictionary.usersOrder) {
+                    self.store.collection(self.libraryPath).document(dictionaryPath)
+                        .updateData(["usersOrder" : dictionary.usersOrder + 1 ])
+                }
+            }
+        }
+        
+        guard let movedDictPath = movedDict.id else { return }
+        self.store.collection(self.libraryPath).document(movedDictPath)
+            .updateData(["usersOrder" : newIndex ])
     }
 
 }
