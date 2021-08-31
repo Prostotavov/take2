@@ -36,13 +36,13 @@ struct LibraryModel {
         return self.dictionaries[index]
     }
     
-    func findDictionaryByUsersOrder(usersOrder: Int) -> DictionaryModel? {
+    func findDictionaryByIndex(indices: IndexSet) -> DictionaryModel {
         for dict in dictionaries {
-            if dict.usersOrder == usersOrder {
+            if dict.usersOrder == indices.min() ?? 0 {
                 return dict
             }
         }
-        return nil
+        return DictionaryModel(name: "")
     }
     
     // MARK: functions for debug

@@ -59,12 +59,12 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.choose(word: word)
     }
     
-    func findWordByUsersOrder(usersOrder: Int) -> WordModel? {
-        dictionaryModel.findWordByUsersOrder(usersOrder: usersOrder)
+    func findWordByIndex(indices: IndexSet) -> WordModel {
+        dictionaryModel.findWordByIndex(indices: indices)
     }
     
-    func move(oldIndex: Int, newIndex: Int, movedWord: WordModel) {
-        dictionaryRepository.move(oldIndex: oldIndex, newIndex: newIndex, movedWord: movedWord)
+    func move(indices: IndexSet, newOffset: Int) {
+        dictionaryRepository.move(indices: indices, newOffset: newOffset)
     }
     
     // MARK: functions for debug

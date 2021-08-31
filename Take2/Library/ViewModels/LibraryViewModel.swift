@@ -45,12 +45,12 @@ class LibraryViewModel: ObservableObject {
         libraryModel.choose(dict: dict)
     }
     
-    func move(oldIndex: Int, newIndex: Int, dictionary: DictionaryModel) {
-        libraryRepository.move(oldIndex: oldIndex, newIndex: newIndex, movedDict: dictionary)
+    func move(indices: IndexSet, newOffset: Int) {
+        libraryRepository.move(indices: indices, newOffset: newOffset)
     }
     
-    func findDictionaryByUsersOrder(usersOrder: Int) -> DictionaryModel? {
-        libraryModel.findDictionaryByUsersOrder(usersOrder: usersOrder)
+    func findDictionaryByIndex(indices: IndexSet) -> DictionaryModel {
+        libraryModel.findDictionaryByIndex(indices: indices)
     }
     
     // MARK: functions for debug

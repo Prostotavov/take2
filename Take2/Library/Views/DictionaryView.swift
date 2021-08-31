@@ -34,7 +34,8 @@ struct DictionaryView: View {
                                     Text(word.translate)
                                 }
                                 Spacer()
-                                Text(word.hint)
+//                                Text(word.hint)
+                                Text(String(word.usersOrder))
                             }
 
                         }
@@ -43,14 +44,7 @@ struct DictionaryView: View {
                         dictionaryViewModel.delete(at: indexSet)
                     })
                     .onMove(perform: { indices, newOffset in
-                        // MARK: Bad practice
-                        // нужно сделать отдельную функцию, чтоб убрать логику
-                        // нужно сделать еще один инициализатор для слова 'WordModel()'
-                        let oldIndex: Int = indices.min() ?? 0 - 1 // тк в IndexSet индексация начинается с 1
-                        let newIndex: Int = newOffset
-                        let word = dictionaryViewModel.findWordByUsersOrder(usersOrder: oldIndex) ?? WordModel(name: "", translate: "", analogy: "", hint: "")
-                        
-                        dictionaryViewModel.move(oldIndex: oldIndex, newIndex: newIndex, movedWord: word)
+                        dictionaryViewModel.move(indices: indices, newOffset: newOffset)
                     })
                 }
                 .toolbar {

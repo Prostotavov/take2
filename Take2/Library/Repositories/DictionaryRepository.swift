@@ -13,7 +13,7 @@ final class DictionaryRepository: ObservableObject {
     
     private let libraryPath = "library"
     let wordsPath = "words"
-    var dictionaryPath: String = "dictionary"
+    var dictionaryPath = "dictionary"
     private let store = Firestore.firestore()
     @Published var dictionaryModel: DictionaryModel
     
@@ -26,7 +26,7 @@ final class DictionaryRepository: ObservableObject {
     func get() {
         
         store.collection(libraryPath).document(dictionaryPath)
-            .collection(wordsPath).order(by: "usersOrder")
+            .collection(wordsPath).order(by: "usersOrder")  // createdTime  usersOrder
             .addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error)
@@ -110,25 +110,34 @@ final class DictionaryRepository: ObservableObject {
             }
         }
     }
-    
-    func move(oldIndex: Int, newIndex: Int, movedWord: WordModel){
+
+    func move(indices: IndexSet, newOffset: Int){
+        
+        let movedWord = dictionaryModel.findWordByIndex(indices: indices)
+        
+        let oldIndex: Int = indices.min() ?? 0
+        var newIndex: Int = newOffset
+        // так как если oldIndex < newIndex, то newIndex почему то становится больше на 1
+        if oldIndex < newIndex { newIndex -= 1 }
+        
         
         for word in dictionaryModel.words {
             guard let wordPath = word.id else { return }
             // так как элемент может перемещаться как вниз, так и вверх
             if oldIndex < newIndex {
-                if (oldIndex...newIndex).contains(word.usersOrder) {
+                if (oldIndex...newIndex).contains(word.usersOrder) && word.id != movedWord.id {
                     self.store.collection(self.libraryPath).document(dictionaryPath)
                         .collection(self.wordsPath).document(wordPath)
                         .updateData(["usersOrder" : word.usersOrder - 1 ])
                 }
             } else {
-                if (newIndex...oldIndex).contains(word.usersOrder) {
+                if (newIndex...oldIndex).contains(word.usersOrder) && word.id != movedWord.id {
                     self.store.collection(self.libraryPath).document(dictionaryPath)
                         .collection(self.wordsPath).document(wordPath)
                         .updateData(["usersOrder" : word.usersOrder + 1 ])
                 }
             }
+            
         }
         
         guard let movedWordPath = movedWord.id else { return }

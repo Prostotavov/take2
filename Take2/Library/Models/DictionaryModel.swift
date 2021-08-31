@@ -54,13 +54,13 @@ struct DictionaryModel: Identifiable, Codable {
         return index
     }
     
-    func findWordByUsersOrder(usersOrder: Int) -> WordModel? {
+    func findWordByIndex(indices: IndexSet) -> WordModel {
         for word in words {
-            if word.usersOrder == usersOrder {
+            if word.usersOrder == indices.min() ?? 0 {
                 return word
             }
         }
-        return nil
+        return WordModel(name: "", translate: "", analogy: "", hint: "")
     }
     
     // MARK: functions for debug

@@ -135,18 +135,25 @@ final class LibraryRepository: ObservableObject {
         }
     }
     
-    func move(oldIndex: Int, newIndex: Int, movedDict: DictionaryModel){
+    func move(indices: IndexSet, newOffset: Int){
+        
+        let movedDict = libraryModel.findDictionaryByIndex(indices: indices)
+        
+        let oldIndex: Int = indices.min() ?? 0
+        var newIndex: Int = newOffset
+        // так как если oldIndex < newIndex, то newIndex почему то становится больше на 1
+        if oldIndex < newIndex { newIndex -= 1 }
         
         for dictionary in libraryModel.dictionaries {
             guard let dictionaryPath = dictionary.id else { return }
-            // так как элемент может перемещаться как вниз, так и вверх 
+            // так как элемент может перемещаться как вниз, так и вверх
             if oldIndex < newIndex {
-                if (oldIndex...newIndex).contains(dictionary.usersOrder) {
+                if  (oldIndex...newIndex).contains(dictionary.usersOrder) && dictionary.id != movedDict.id {
                     self.store.collection(self.libraryPath).document(dictionaryPath)
                         .updateData(["usersOrder" : dictionary.usersOrder - 1 ])
                 }
             } else {
-                if (newIndex...oldIndex).contains(dictionary.usersOrder) {
+                if (newIndex...oldIndex).contains(dictionary.usersOrder) && dictionary.id != movedDict.id {
                     self.store.collection(self.libraryPath).document(dictionaryPath)
                         .updateData(["usersOrder" : dictionary.usersOrder + 1 ])
                 }

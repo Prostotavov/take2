@@ -27,14 +27,7 @@ struct LibraryView: View {
                         libraryViewModel.delete(at: indexSet)
                     })
                     .onMove(perform: { indices, newOffset in
-                        // MARK: Bad practice
-                        // нужно сделать отдельную функцию, чтоб убрать логику
-                        // нужно сделать еще один инициализатор для словаря 'DictionaryModel()'
-                        let oldIndex: Int = indices.min() ?? 0 - 1 // тк в IndexSet индексация начинается с 1
-                        let newIndex: Int = newOffset - 1
-                        let dictionary = libraryViewModel.findDictionaryByUsersOrder(usersOrder: oldIndex) ?? DictionaryModel(name: "")
-                        
-                        libraryViewModel.move(oldIndex: oldIndex, newIndex: newIndex, dictionary: dictionary)
+                        libraryViewModel.move(indices: indices, newOffset: newOffset)
                     })
                 }
                 .toolbar {
