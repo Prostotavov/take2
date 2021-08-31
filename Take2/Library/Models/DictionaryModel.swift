@@ -15,7 +15,7 @@ struct DictionaryModel: Identifiable, Codable {
     // MARK: super bad practice
     // нужно сделать либо обратный отсчет индексов, либо сделать ограничение на словарь
     // по словам, максимум 100000 словарей в библиотеке
-    var usersOrder = 100000
+    var index = 100000
     
     // MARK: Future Feaches
     // В будущем можно будет изменять название словаря
@@ -26,18 +26,12 @@ struct DictionaryModel: Identifiable, Codable {
     init(name: String) {
         self.name = name
         self.words = Array<WordModel>()
-        // MARK: Bad Practice
-        // Лучше всего делать отдельную структуру для дебага
-        // и так ее и назвать 'struct Debage'
-        // там будет вся логика и все нужные функции.
-        // лучше всего реализовать в ней удобные инициализаторы(convinient init)
-        // чтобы структура реализовывала нужные нам функции
-        print("DM init name")
-    } 
+    }
     
-    // MARK: Bad Practice2
-    // нужно удалить ненужные функции и переименовать оставшиеся
-    
+    init() {
+        self.name = ""
+        self.words = Array<WordModel>()
+    }
     
     mutating func addWords(words: [WordModel]) {
         for word in words {
@@ -54,32 +48,13 @@ struct DictionaryModel: Identifiable, Codable {
         return index
     }
     
-    func findWordByIndex(indices: IndexSet) -> WordModel {
+    func findWordIn(_ indices: IndexSet) -> WordModel {
         for word in words {
-            if word.usersOrder == indices.min() ?? 0 {
+            if word.index == indices.min() ?? 0 {
                 return word
             }
         }
-        return WordModel(name: "", translate: "", analogy: "", hint: "")
-    }
-    
-    // MARK: functions for debug
-    
-    func printContent () {
-        words.forEach { print($0.name) }
-    }
-    
-    func getID() -> String? {
-        return self.id
-    }
-    
-    func isEmpty() {
-        if !self.words.isEmpty {
-            self.printContent()
-        }
-        else {
-            print("Array of words is empty")
-        }
+        return WordModel()
     }
     
 }

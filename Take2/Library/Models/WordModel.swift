@@ -15,7 +15,7 @@ struct WordModel: Identifiable, Codable {
     // MARK: super bad practice
     // нужно сделать либо обратный отсчет индексов, либо сделать ограничение на словарь
     // по словам, максимум 100000 слов в словаре
-    var usersOrder = 100000
+    var index = 100000
     
     // MARK: Future Feaches
     // В перспективе такие поля как: translate, analogy, hint
@@ -27,10 +27,18 @@ struct WordModel: Identifiable, Codable {
     var analogy: String
     var hint: String
     
-    // MARK: functions for debug
+    init() {
+        name = ""
+        translate = ""
+        analogy = ""
+        hint = ""
+    }
     
-    func getID() -> String? {
-        return self.id
+    init(name: String, translate: String, analogy: String, hint: String) {
+        self.name = name
+        self.translate = translate
+        self.analogy = analogy
+        self.hint = hint
     }
     
 }

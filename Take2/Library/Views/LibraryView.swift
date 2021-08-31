@@ -27,7 +27,7 @@ struct LibraryView: View {
                         libraryViewModel.delete(at: indexSet)
                     })
                     .onMove(perform: { indices, newOffset in
-                        libraryViewModel.move(indices: indices, newOffset: newOffset)
+                        libraryViewModel.move(fromOffets: indices, toOffsets: newOffset)
                     })
                 }
                 .toolbar {

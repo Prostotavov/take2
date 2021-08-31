@@ -24,7 +24,7 @@ class DictionaryViewModel: ObservableObject {
     }
     
     var usersOrder: Int {
-        return dictionaryModel.usersOrder
+        return dictionaryModel.index
     }
     
     var words: Array<WordModel> {
@@ -59,26 +59,12 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.choose(word: word)
     }
     
-    func findWordByIndex(indices: IndexSet) -> WordModel {
-        dictionaryModel.findWordByIndex(indices: indices)
+    func findWordIn(_ indices: IndexSet) -> WordModel {
+        dictionaryModel.findWordIn(indices)
     }
     
-    func move(indices: IndexSet, newOffset: Int) {
-        dictionaryRepository.move(indices: indices, newOffset: newOffset)
-    }
-    
-    // MARK: functions for debug
-    
-    func printContent () {
-        dictionaryModel.printContent()
-    }
-    
-    func getID() -> String? {
-        return dictionaryModel.getID()
-    }
-    
-    func isEmpty () {
-        self.dictionaryModel.isEmpty()
+    func move(fromOffets indices: IndexSet,toOffsets newOffset: Int) {
+        dictionaryRepository.move(fromOffets: indices, toOffsets: newOffset)
     }
 
 }

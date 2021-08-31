@@ -10,7 +10,7 @@ import SwiftUI
 struct AddDictionaryView: View {
     
     @Binding var showAddDictView: Bool
-    @State var dict = DictionaryModel(name: "")
+    @State var dict = DictionaryModel()
     @ObservedObject var libraryViewModel: LibraryViewModel
     
     var body: some View {

@@ -14,9 +14,6 @@ struct LibraryModel {
     
     private(set) var dictionaries: Array<DictionaryModel>
     
-    // MARK: Bad Practice
-    // нужно удалить ненужные функции и переименовать оставшиеся
-    
     init() {
         self.dictionaries = Array<DictionaryModel>()
     }
@@ -36,28 +33,13 @@ struct LibraryModel {
         return self.dictionaries[index]
     }
     
-    func findDictionaryByIndex(indices: IndexSet) -> DictionaryModel {
+    func findDictionaryIn(_ indices: IndexSet) -> DictionaryModel {
         for dict in dictionaries {
-            if dict.usersOrder == indices.min() ?? 0 {
+            if dict.index == indices.min() ?? 0 {
                 return dict
             }
         }
-        return DictionaryModel(name: "")
-    }
-    
-    // MARK: functions for debug
-    
-    func printContent () {
-        dictionaries.forEach { print($0.name) }
-    }
-    
-    func isEmpty() {
-        if !self.dictionaries.isEmpty {
-            self.printContent()
-        }
-        else {
-            print("Array of dicts is empty")
-        }
+        return DictionaryModel()
     }
     
 }

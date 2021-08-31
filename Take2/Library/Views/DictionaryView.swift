@@ -35,7 +35,7 @@ struct DictionaryView: View {
                                 }
                                 Spacer()
 //                                Text(word.hint)
-                                Text(String(word.usersOrder))
+                                Text(String(word.index))
                             }
 
                         }
@@ -44,7 +44,7 @@ struct DictionaryView: View {
                         dictionaryViewModel.delete(at: indexSet)
                     })
                     .onMove(perform: { indices, newOffset in
-                        dictionaryViewModel.move(indices: indices, newOffset: newOffset)
+                        dictionaryViewModel.move(fromOffets: indices, toOffsets: newOffset)
                     })
                 }
                 .toolbar {
@@ -89,7 +89,7 @@ struct DictionaryView: View {
 }
 
 struct DictionaryView_Previews: PreviewProvider {
-    static var dict = DictionaryModel(name: "")
+    static var dict = DictionaryModel()
     static var previews: some View {
         DictionaryView(dictionary: dict)
     }

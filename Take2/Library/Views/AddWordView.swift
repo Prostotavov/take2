@@ -10,7 +10,7 @@ import SwiftUI
 struct AddWordView: View {
     
     @Binding var showAddWordView: Bool
-    @State var word = WordModel(name: "", translate: "", analogy: "", hint: "")
+    @State var word = WordModel()
     @ObservedObject var dictionaryViewModel: DictionaryViewModel
     
     var body: some View {
@@ -47,7 +47,6 @@ struct AddWordView: View {
                                     Button(action: {
                                         dictionaryViewModel.add(word)
                                         showAddWordView = false
-                                        dictionaryViewModel.printContent()
                                     }, label: {
                                         Text("Save")
                                     })
@@ -63,7 +62,7 @@ struct AddWordView: View {
 }
 
 struct AddWordView_Previews: PreviewProvider {
-    static var dict = DictionaryModel(name: "")
+    static var dict = DictionaryModel()
     static var dictionary = DictionaryViewModel(dictionaryModel: dict)
     static var previews: some View {
         AddWordView(showAddWordView: .constant(true), dictionaryViewModel: dictionary)

@@ -45,18 +45,12 @@ class LibraryViewModel: ObservableObject {
         libraryModel.choose(dict: dict)
     }
     
-    func move(indices: IndexSet, newOffset: Int) {
-        libraryRepository.move(indices: indices, newOffset: newOffset)
+    func move(fromOffets indices: IndexSet,toOffsets newOffset: Int) {
+        libraryRepository.move(fromOffets: indices, toOffsets: newOffset)
     }
     
-    func findDictionaryByIndex(indices: IndexSet) -> DictionaryModel {
-        libraryModel.findDictionaryByIndex(indices: indices)
-    }
-    
-    // MARK: functions for debug
-    
-    func printContent () {
-        libraryModel.printContent()
+    func findDictionaryIn(_ indices: IndexSet) -> DictionaryModel {
+        libraryModel.findDictionaryIn(indices)
     }
     
 }

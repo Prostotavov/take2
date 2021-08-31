@@ -12,9 +12,9 @@ import Combine
 final class DictionaryRepository: ObservableObject {
     
     private let libraryPath = "library"
-    let wordsPath = "words"
-    var dictionaryPath = "dictionary"
-    private let store = Firestore.firestore()
+    private let wordsPath = "words"
+    private let dictionaryPath: String
+    private let db = Firestore.firestore()
     @Published var dictionaryModel: DictionaryModel
     
     init(dictionary: DictionaryModel) {
@@ -22,11 +22,10 @@ final class DictionaryRepository: ObservableObject {
         self.dictionaryPath = dictionary.id ?? "dictionary"
         get()
     }
-    
+
     func get() {
-        
-        store.collection(libraryPath).document(dictionaryPath)
-            .collection(wordsPath).order(by: "usersOrder")  // createdTime  usersOrder
+        db.collection(libraryPath).document(dictionaryPath)
+            .collection(wordsPath).order(by: "index")
             .addSnapshotListener { snapshot, error in
             if let error = error {
                 print(error)
@@ -43,28 +42,26 @@ final class DictionaryRepository: ObservableObject {
     }
     
     func add(_ word: WordModel) {
-        
         guard let wordPath = word.id else { return }
         do {
-            _ = try store.collection(libraryPath).document(dictionaryPath)
+            _ = try db.collection(libraryPath).document(dictionaryPath)
                 .collection(wordsPath).document(wordPath).setData(from: word)
         } catch {
             fatalError("Adding a word failed")
         }
-        self.setUsersOrderIfAdd(wordPath: wordPath)
+        self.setIndexIfAdd(word: word)
     }
     
     func remove(_ word: WordModel) {
-        
-        let removedId = word.usersOrder
+        let removedId = word.index
         guard let wordPath = word.id else { return }
-        store.collection(libraryPath).document(dictionaryPath)
+        db.collection(libraryPath).document(dictionaryPath)
             .collection(wordsPath).document(wordPath).delete { error in
             if let error = error {
                 print("Unable to remove this word: \(error.localizedDescription)")
             }
         }
-        self.setUsersOrderIfRemove(removedId: removedId)
+        self.setIndexIfRemove(removedId: removedId)
     }
     
     func delete(at offsets: IndexSet) {
@@ -73,17 +70,38 @@ final class DictionaryRepository: ObservableObject {
         }
     
     func update(_ word: WordModel) {
-        
         guard let wordPath = word.id else { return }
-                store.collection(libraryPath).document(dictionaryPath)
+                db.collection(libraryPath).document(dictionaryPath)
                 .collection(wordsPath).document(wordPath).updateData(["analogy":word.analogy,"hint":word.hint,
                      "name":word.name, "translate":word.translate])
     }
-    
-    func setUsersOrderIfAdd(wordPath: String) {
+
+    func move(fromOffets indices: IndexSet,toOffsets newOffset: Int){
+        let movedWord = dictionaryModel.findWordIn(indices)
+        let oldIndex: Int = indices.min() ?? 0
+        var newIndex: Int = newOffset
+        if oldIndex < newIndex { newIndex -= 1 }
+        // так как если oldIndex < newIndex, то newIndex почему то становится больше на 1
+        changeIndex(in: movedWord, to: newIndex)
         
-        store.collection(libraryPath).document(self.dictionaryPath)
-            .collection(self.wordsPath).getDocuments() { querySnapshot, error in
+        for word in dictionaryModel.words {
+            if oldIndex < newIndex {
+                if (oldIndex...newIndex).contains(word.index) && word.id != movedWord.id {
+                    changeIndex(in: word, to: word.index - 1)
+                }
+            } else {
+                if (newIndex...oldIndex).contains(word.index) && word.id != movedWord.id {
+                    changeIndex(in: word, to: word.index + 1)
+                }
+            }
+        }
+    }
+    
+    // MARK: Вспомогательные функции
+    
+    func setIndexIfAdd(word: WordModel) {
+        db.collection(libraryPath).document(dictionaryPath)
+            .collection(wordsPath).getDocuments() { querySnapshot, error in
             if let error = error {
                 print("Error getting documents: \(error)");
             }
@@ -92,58 +110,24 @@ final class DictionaryRepository: ObservableObject {
                 for _ in querySnapshot!.documents {
                     count += 1
                 }
-                self.store.collection(self.libraryPath).document(self.dictionaryPath)
-                    .collection(self.wordsPath).document(wordPath)
-                    .updateData(["usersOrder" : count ])
+                self.changeIndex(in: word, to: count)
             }
         }
     }
     
-    func setUsersOrderIfRemove(removedId: Int) {
-        
+    func setIndexIfRemove(removedId: Int) {
         for word in dictionaryModel.words {
+            if word.index > removedId {
+                changeIndex(in: word, to: word.index - 1)
+            }
+        }
+    }
+    
+    func changeIndex(in word: WordModel, to newIndex: Int) {
         guard let wordPath = word.id else { return }
-            if word.usersOrder > removedId {
-                self.store.collection(self.libraryPath).document(dictionaryPath)
-                    .collection(self.wordsPath).document(wordPath)
-                    .updateData(["usersOrder" : word.usersOrder - 1 ])
-            }
-        }
+        db.collection(libraryPath).document(dictionaryPath)
+            .collection(wordsPath).document(wordPath)
+            .updateData(["index" : newIndex])
     }
-
-    func move(indices: IndexSet, newOffset: Int){
-        
-        let movedWord = dictionaryModel.findWordByIndex(indices: indices)
-        
-        let oldIndex: Int = indices.min() ?? 0
-        var newIndex: Int = newOffset
-        // так как если oldIndex < newIndex, то newIndex почему то становится больше на 1
-        if oldIndex < newIndex { newIndex -= 1 }
-        
-        
-        for word in dictionaryModel.words {
-            guard let wordPath = word.id else { return }
-            // так как элемент может перемещаться как вниз, так и вверх
-            if oldIndex < newIndex {
-                if (oldIndex...newIndex).contains(word.usersOrder) && word.id != movedWord.id {
-                    self.store.collection(self.libraryPath).document(dictionaryPath)
-                        .collection(self.wordsPath).document(wordPath)
-                        .updateData(["usersOrder" : word.usersOrder - 1 ])
-                }
-            } else {
-                if (newIndex...oldIndex).contains(word.usersOrder) && word.id != movedWord.id {
-                    self.store.collection(self.libraryPath).document(dictionaryPath)
-                        .collection(self.wordsPath).document(wordPath)
-                        .updateData(["usersOrder" : word.usersOrder + 1 ])
-                }
-            }
-            
-        }
-        
-        guard let movedWordPath = movedWord.id else { return }
-        self.store.collection(self.libraryPath).document(dictionaryPath)
-            .collection(self.wordsPath).document(movedWordPath)
-            .updateData(["usersOrder" : newIndex ])
-    }
-
+    
 }
