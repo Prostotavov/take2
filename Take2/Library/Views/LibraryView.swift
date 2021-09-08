@@ -27,9 +27,11 @@ struct LibraryView: View {
                         libraryViewModel.delete(at: indexSet)
                     })
                     .onMove(perform: { indices, newOffset in
-                        libraryViewModel.move(fromOffets: indices, toOffsets: newOffset)
+                        libraryViewModel.moveDictionary(fromOffsets: indices, toOffset: newOffset)
+                        libraryViewModel.updateIndices(fromOffsets: indices, toOffset: newOffset, dictionaries: libraryViewModel.dictionaries)
                     })
                 }
+                .listStyle(InsetGroupedListStyle())
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         Text("Library")
@@ -47,6 +49,7 @@ struct LibraryView: View {
                     }
                 }
             }
+            .blur(radius: showAddDictView ? 3.0 : 0)
             if showAddDictView {
                 AddDictionaryView(showAddDictView: $showAddDictView, libraryViewModel: libraryViewModel)
             }

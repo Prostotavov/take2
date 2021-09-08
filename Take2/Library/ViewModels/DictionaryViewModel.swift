@@ -63,8 +63,12 @@ class DictionaryViewModel: ObservableObject {
         dictionaryModel.findWordIn(indices)
     }
     
-    func move(fromOffets indices: IndexSet,toOffsets newOffset: Int) {
-        dictionaryRepository.move(fromOffets: indices, toOffsets: newOffset)
+    func moveWord(fromOffsets indices: IndexSet, toOffset newOffset: Int) {
+        dictionaryModel.moveWord(fromOffsets: indices, toOffset: newOffset)
+    }
+    
+    func updateIndices(fromOffsets indices: IndexSet, toOffset newOffset: Int, words: [WordModel]) {
+        dictionaryRepository.updateIndices(fromOffsets: indices, toOffset: newOffset, words: words)
     }
 
 }

@@ -102,6 +102,30 @@ final class LibraryRepository: ObservableObject {
                     .updateData(["name" : dictionary.name ])
     }
     
+    func updateIndex(_ dictionary: DictionaryModel) {
+        guard let dictionaryPath = dictionary.id else { return }
+        db.collection(libraryPath).document(dictionaryPath)
+            .updateData(["index" : dictionary.index ])
+    }
+    
+    func updateIndices(fromOffsets indices: IndexSet, toOffset newOffset: Int, dictionaries: [DictionaryModel]) {
+        let oldIndex: Int = indices.min() ?? 0
+        var newIndex: Int = newOffset
+        if oldIndex < newIndex { newIndex -= 1 }
+        // так как если oldIndex < newIndex, то newIndex почему то становится больше на 1
+        for dictionary in dictionaries {
+            if oldIndex < newIndex {
+                if (oldIndex...newIndex).contains(dictionary.index) {
+                    updateIndex(dictionary)
+                }
+            } else {
+                if (newIndex...oldIndex).contains(dictionary.index) {
+                    updateIndex(dictionary)
+                }
+            }
+        }
+    }
+    
     func move(fromOffets indices: IndexSet,toOffsets newOffset: Int){
         let movedDict = libraryModel.findDictionaryIn(indices)
         let oldIndex: Int = indices.min() ?? 0

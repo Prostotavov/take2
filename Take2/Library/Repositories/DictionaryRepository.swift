@@ -73,25 +73,29 @@ final class DictionaryRepository: ObservableObject {
         guard let wordPath = word.id else { return }
                 db.collection(libraryPath).document(dictionaryPath)
                 .collection(wordsPath).document(wordPath).updateData(["analogy":word.analogy,"hint":word.hint,
-                     "name":word.name, "translate":word.translate])
+                     "name":word.name, "translate":word.translate, "index": word.index])
     }
-
-    func move(fromOffets indices: IndexSet,toOffsets newOffset: Int){
-        let movedWord = dictionaryModel.findWordIn(indices)
+    
+    func updateIndex(_ word: WordModel) {
+        guard let wordPath = word.id else { return }
+                db.collection(libraryPath).document(dictionaryPath)
+                .collection(wordsPath).document(wordPath).updateData(["index": word.index])
+    }
+    
+    
+    func updateIndices(fromOffsets indices: IndexSet, toOffset newOffset: Int, words: [WordModel]) {
         let oldIndex: Int = indices.min() ?? 0
         var newIndex: Int = newOffset
         if oldIndex < newIndex { newIndex -= 1 }
         // так как если oldIndex < newIndex, то newIndex почему то становится больше на 1
-        changeIndex(in: movedWord, to: newIndex)
-        
-        for word in dictionaryModel.words {
+        for word in words {
             if oldIndex < newIndex {
-                if (oldIndex...newIndex).contains(word.index) && word.id != movedWord.id {
-                    changeIndex(in: word, to: word.index - 1)
+                if (oldIndex...newIndex).contains(word.index) {
+                    updateIndex(word)
                 }
             } else {
-                if (newIndex...oldIndex).contains(word.index) && word.id != movedWord.id {
-                    changeIndex(in: word, to: word.index + 1)
+                if (newIndex...oldIndex).contains(word.index) {
+                    updateIndex(word)
                 }
             }
         }

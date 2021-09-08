@@ -53,6 +53,14 @@ class LibraryViewModel: ObservableObject {
         libraryModel.findDictionaryIn(indices)
     }
     
+    func moveDictionary(fromOffsets indices: IndexSet, toOffset newOffset: Int) {
+        libraryModel.moveDictionary(fromOffsets: indices, toOffset: newOffset)
+    }
+    
+    func updateIndices(fromOffsets indices: IndexSet, toOffset newOffset: Int, dictionaries: [DictionaryModel]) {
+        libraryRepository.updateIndices(fromOffsets: indices, toOffset: newOffset, dictionaries: dictionaries)
+    }
+    
 }
 
 

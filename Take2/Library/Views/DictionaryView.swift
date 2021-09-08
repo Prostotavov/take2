@@ -44,9 +44,11 @@ struct DictionaryView: View {
                         dictionaryViewModel.delete(at: indexSet)
                     })
                     .onMove(perform: { indices, newOffset in
-                        dictionaryViewModel.move(fromOffets: indices, toOffsets: newOffset)
+                        dictionaryViewModel.moveWord(fromOffsets: indices, toOffset: newOffset)
+                        dictionaryViewModel.updateIndices(fromOffsets: indices, toOffset: newOffset, words: dictionaryViewModel.words)
                     })
                 }
+                .listStyle(InsetGroupedListStyle())
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         Text("Dictionary")

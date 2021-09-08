@@ -57,4 +57,26 @@ struct DictionaryModel: Identifiable, Codable {
         return WordModel()
     }
     
+    mutating func moveWord(fromOffsets indices: IndexSet, toOffset newOffset: Int) {
+        let oldIndex: Int = indices.min() ?? 0
+        var newIndex: Int = newOffset
+        if oldIndex < newIndex { newIndex -= 1 }
+        // так как если oldIndex < newIndex, то newIndex почему то становится больше на 1
+        words[oldIndex].index = newIndex
+        var i = -1
+        for word in words {
+            i += 1
+            if oldIndex < newIndex {
+                if (oldIndex...newIndex).contains(word.index) && word.id != words[oldIndex].id {
+                    words[i].index -= 1
+                }
+            } else {
+                if (newIndex...oldIndex).contains(word.index) && word.id != words[oldIndex].id {
+                    words[i].index += 1
+                }
+            }
+        }
+        words.move(fromOffsets: indices, toOffset: newOffset)
+    }
+    
 }

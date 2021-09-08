@@ -42,5 +42,31 @@ struct LibraryModel {
         return DictionaryModel()
     }
     
+    mutating func moveDictionary(fromOffsets indices: IndexSet, toOffset newOffset: Int) {
+        
+        let oldIndex: Int = indices.min() ?? 0
+        var newIndex: Int = newOffset
+        if oldIndex < newIndex { newIndex -= 1 }
+        // так как если oldIndex < newIndex, то newIndex почему то становится больше на 1
+        dictionaries[oldIndex].index = newIndex
+        
+        var i = -1
+        for dictionary in dictionaries {
+            i += 1
+            if oldIndex < newIndex {
+                if (oldIndex...newIndex).contains(dictionary.index) && dictionary.id != dictionaries[oldIndex].id {
+                    dictionaries[i].index -= 1
+                }
+            } else {
+                if (newIndex...oldIndex).contains(dictionary.index) && dictionary.id != dictionaries[oldIndex].id {
+                    dictionaries[i].index += 1
+                }
+            }
+        }
+        dictionaries.move(fromOffsets: indices, toOffset: newOffset)
+    }
+    
 }
+
+
 
